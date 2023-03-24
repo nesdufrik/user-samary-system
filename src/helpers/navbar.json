@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Inicio",
+        "link": "/",
+        "icon": "home"
+    },
+    {
+        "title": "Estadísticas",
+        "link": "dashboard",
+        "icon": "dashboard"
+    },
+    {
+        "title": "Productos",
+        "link": "productos",
+        "icon": "restaurant"
+    },
+    {
+        "title": "Usuarios",
+        "link": "users",
+        "icon": "group"
+    }
+]
