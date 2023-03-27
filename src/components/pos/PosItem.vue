@@ -8,14 +8,12 @@
         <div
             class="rounded-2 bd-callout bd-callout-left bd-callout-secondary d-flex justify-content-between fw-bold m-0"
         >
-            <div class="align-self-center p-2 fs-5">
+            <div class="p-2 fs-5 product-name">
                 <div>{{ nombreProducto }}</div>
             </div>
-            <div class="align-self-center text-end">
-                <div class="product-price">
-                    <div class="price-circle fs-5">
-                        <small>Bs.&nbsp;</small>{{ precioProducto }}
-                    </div>
+            <div class="product-price">
+                <div class="price-circle fs-5">
+                    <small>Bs.&nbsp;</small>{{ precioProducto }}
                 </div>
             </div>
         </div>
@@ -53,11 +51,20 @@ const handleShiftClick = (event, item) => {
 </script>
 
 <style scoped>
+.product-name {
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .product-price {
     background-color: #d1e7dd;
     border-top-right-radius: 0.375rem;
     border-bottom-right-radius: 0.375rem;
     color: #146c43;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .enlace_action:hover .product-price {
@@ -69,7 +76,6 @@ const handleShiftClick = (event, item) => {
     align-items: center;
     justify-content: center;
     width: 100px;
-    height: 80px;
 }
 
 .bd-callout-left {
