@@ -10,7 +10,7 @@ const routes = [
         path: '/oauth',
         name: 'OAuth',
         meta: {
-            title: 'Sesión sin login',
+            title: 'OAuth login',
             requiresAuth: false,
         },
         component: OAuth,
@@ -20,14 +20,38 @@ const routes = [
         name: 'Inicio',
         meta: {
             requiresAuth: true,
-            title: 'Punto de Venta',
         },
         component: GeneralView,
         children: [
             {
                 path: '/home',
                 name: 'Home',
+                meta: {
+                    title: 'Portal de inicio',
+                },
                 component: () => import('../pages/Home.vue'),
+            },
+            {
+                path: '/pos',
+                name: 'POS',
+                meta: {
+                    title: 'Punto de venta',
+                },
+                component: () => import('../pages/PointOfSale.vue'),
+            },
+            {
+                path: '/ordenes',
+                name: 'Ordenes',
+                meta: {
+                    title: 'Ordenes en curso',
+                },
+            },
+            {
+                path: 'reportes',
+                name: 'Reportes',
+                meta: {
+                    title: 'Reporte del día',
+                },
             },
         ],
     },

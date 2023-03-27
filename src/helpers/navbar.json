@@ -5,18 +5,18 @@
         "icon": "home"
     },
     {
-        "title": "Estadísticas",
-        "link": "dashboard",
-        "icon": "dashboard"
+        "title": "P.O.S.",
+        "link": "pos",
+        "icon": "point_of_sale"
     },
     {
-        "title": "Productos",
-        "link": "productos",
-        "icon": "restaurant"
+        "title": "Ordenes",
+        "link": "ordenes",
+        "icon": "event_note"
     },
     {
-        "title": "Usuarios",
-        "link": "users",
-        "icon": "group"
+        "title": "Reportes",
+        "link": "reportes",
+        "icon": "task"
     }
 ]

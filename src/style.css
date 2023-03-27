@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&family=Indie+Flower&family=Kalam&family=Quicksand&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
 * {
     font-family: 'Nunito', sans-serif;
@@ -20,7 +19,7 @@ body {
     --bs-dark-text: #495057;
     --bs-primary-bg-subtle: #cfe2ff;
     --bs-secondary-bg-subtle: #f8f9fa;
-    --bs-success-bg-subtle: rgb(209 231 221);
+    --bs-success-bg-subtle: #d1e7dd;
     --bs-info-bg-subtle: #cff4fc;
     --bs-warning-bg-subtle: #fff3cd;
     --bs-danger-bg-subtle: #f8d7da;
@@ -119,4 +118,8 @@ body {
 }
 .btn-modal-right {
     border-bottom-right-radius: 0.375rem;
+}
+
+.enlace_action {
+    user-select: none;
 }

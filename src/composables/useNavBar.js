@@ -4,22 +4,15 @@ import { useNavBarStore } from '../stores/navBar'
 
 export const useNavBar = () => {
     const navBarStore = useNavBarStore()
-    const { showNavBar, itemsNavBar, paramId } = storeToRefs(navBarStore)
+    const { itemsNavBar } = storeToRefs(navBarStore)
 
     const contentNavBar = () => {
-        if (!showNavBar.value) {
-            navBarStore.loadNavBar([])
-        }
-        if (showNavBar.value) {
-            navBarStore.loadNavBar(getNavBar())
-        }
+        navBarStore.loadNavBar(getNavBar())
     }
 
     return {
         //! propiedades
-        showNavBar,
         itemsNavBar,
-        paramId,
 
         //! metodos
         contentNavBar,

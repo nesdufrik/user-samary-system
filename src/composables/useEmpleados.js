@@ -17,19 +17,6 @@ export const useEmpleados = () => {
         empleadosStore.loadEmpleados(await getEmpleados(sucursalId))
     }
 
-    const newEmpleado = async sucursalId => {
-        errorApi.value.show = false
-        actionState.value = true
-        empleadosStore.addEmpleado(
-            await postEmpleado(empleadoForm.value, sucursalId)
-        )
-        actionState.value = false
-    }
-
-    const editarEmpleado = empleadoId => {
-        empleadosStore.editEmpleado(empleadoId)
-    }
-
     const updateEmpleado = async empleadoId => {
         errorApi.value.show = false
         actionState.value = true
@@ -37,21 +24,6 @@ export const useEmpleados = () => {
             await putEmpleado(empleadoForm.value, empleadoId)
         )
         actionState.value = false
-    }
-
-    const delEmpleado = async empleadoId => {
-        actionState.value = true
-        await deleteEmpleado(empleadoId)
-        empleadosStore.deleteEmpleado(empleadoId)
-        actionState.value = false
-    }
-
-    const cleanForm = () => {
-        empleadoForm.value = {}
-    }
-
-    const defaulAvatar = () => {
-        empleadoForm.value.avatar = '/avatars/default.png'
     }
 
     return {
@@ -63,11 +35,6 @@ export const useEmpleados = () => {
 
         //! metodos
         listEmpleados,
-        newEmpleado,
-        editarEmpleado,
         updateEmpleado,
-        delEmpleado,
-        cleanForm,
-        defaulAvatar,
     }
 }

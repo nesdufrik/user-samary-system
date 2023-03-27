@@ -6,16 +6,16 @@
                 <RouterView />
             </div>
         </div>
-        <footer class="footer mt-auto py-3 bg-light bg-opacity-50">
-            <div class="container-xl text-center">
-                <small class="text-muted">&copy; FrikTek 2023</small>
-            </div>
-        </footer>
+        <footer class="footer mt-auto py-3"></footer>
     </div>
 </template>
 
 <script setup>
 import NavBar from '../components/NavBar.vue'
+import { useNavBar } from '../composables/useNavBar'
+
+const { contentNavBar } = useNavBar()
+contentNavBar()
 </script>
 
 <style scoped></style>
