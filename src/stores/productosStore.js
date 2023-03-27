@@ -5,6 +5,7 @@ export const useProductosStore = defineStore('productos', {
         return {
             categoriasArr: [],
             productosArr: [],
+            productosFiltered: [],
             actionState: false,
         }
     },
@@ -14,6 +15,11 @@ export const useProductosStore = defineStore('productos', {
         },
         loadProductos(items) {
             this.productosArr = items
+        },
+        filterProductos(filter) {
+            this.productosFiltered = this.productosArr.filter(
+                el => el.etiqueta == filter
+            )
         },
     },
     getters: {

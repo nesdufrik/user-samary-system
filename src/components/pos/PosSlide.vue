@@ -6,12 +6,11 @@
     >
         <template v-for="(slide, index) in etiquetasArr" :key="index">
             <Slide>
-                <!-- <div
-                    class="carousel__item bg-light border text-center"
-                    @click="select(slide)"
-                > -->
-                <div class="carousel__item bg-light border text-center">
-                    <strong>{{ slide }}</strong>
+                <div
+                    class="carousel__item text-center fw-bold p-0"
+                    @click="filtrar(slide)"
+                >
+                    {{ slide }}
                 </div>
             </Slide>
         </template>
@@ -25,7 +24,7 @@ import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide } from 'vue3-carousel'
 import { useProductos } from '../../composables/useProductos'
 
-const { etiquetasArr } = useProductos()
+const { etiquetasArr, filtrar } = useProductos()
 
 const settings = {
     itemsToShow: 2.6,
@@ -86,13 +85,16 @@ const breakpoints = {
 
 <style scoped>
 .carousel__item {
-    min-height: 125px;
+    background-color: #f8f9fa;
+    color: #495057;
+    min-height: 100px;
     width: 125px;
     font-size: 20px;
-    border-radius: 8px;
+    border-radius: 0.375rem;
     display: flex;
     justify-content: center;
     align-items: center;
     user-select: none;
+    cursor: pointer;
 }
 </style>

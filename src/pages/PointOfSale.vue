@@ -25,9 +25,23 @@
                     <div><PosSlide /></div>
                 </div>
                 <hr class="text-dark" />
+                <div
+                    v-if="productosFiltered.length === 0"
+                    class="d-flex flex-column justify-content-center align-items-center m-5 p-5"
+                >
+                    <img
+                        src="../assets/icons/choice.png"
+                        style="width: 100px"
+                        alt=""
+                    />
+                    <span class="fw-bold text-center mt-3" style="width: 300px"
+                        >No selecciono una categoria o la categoria seleccionada
+                        esta vacia</span
+                    >
+                </div>
                 <div class="row row-cols-1 row-cols-xxl-2 g-3">
                     <PosItem
-                        v-for="item in productosArr"
+                        v-for="item in productosFiltered"
                         :key="item._id"
                         :nombreProducto="item.name"
                         :precioProducto="item.precio"
@@ -48,7 +62,7 @@ import PosCuenta from '../components/pos/PosCuenta.vue'
 import PosItem from '../components/pos/PosItem.vue'
 import { useProductos } from '../composables/useProductos'
 
-const { productosArr, loadPOS } = useProductos()
+const { productosArr, productosFiltered, loadPOS } = useProductos()
 
 loadPOS()
 </script>

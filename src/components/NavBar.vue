@@ -131,7 +131,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import { useNavBar } from '../composables/useNavBar'

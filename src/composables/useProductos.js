@@ -5,8 +5,13 @@ import { useProductosStore } from '../stores/productosStore'
 export const useProductos = () => {
     const productosStore = useProductosStore()
 
-    const { categoriasArr, productosArr, actionState, etiquetasArr } =
-        storeToRefs(productosStore)
+    const {
+        categoriasArr,
+        productosArr,
+        actionState,
+        etiquetasArr,
+        productosFiltered,
+    } = storeToRefs(productosStore)
 
     const loadPOS = async () => {
         if (
@@ -20,10 +25,15 @@ export const useProductos = () => {
         console.log('Los items estan cargados')
     }
 
+    const filtrar = filtro => {
+        productosStore.filterProductos(filtro)
+    }
+
     return {
         //! propiedades
         categoriasArr,
         productosArr,
+        productosFiltered,
         actionState,
 
         //! computadas
@@ -31,5 +41,6 @@ export const useProductos = () => {
 
         //! metodos
         loadPOS,
+        filtrar,
     }
 }
