@@ -36,7 +36,6 @@ const handleClick = (event, item) => {
         return
     }
 
-    console.log('Clicked!')
     agregarCarrito(item)
 }
 
@@ -45,7 +44,6 @@ const handleShiftClick = (event, item) => {
         return
     }
 
-    console.log('Shift clicked!')
     agregarCarritoNota(item)
 }
 </script>

@@ -22,7 +22,6 @@ export const useProductos = () => {
             productosStore.loadProductos(await getProductos())
             return
         }
-        console.log('Los items estan cargados')
     }
 
     const filtrar = filtro => {
