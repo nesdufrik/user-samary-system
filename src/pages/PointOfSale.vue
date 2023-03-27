@@ -12,7 +12,7 @@
         <div class="col-md-12 col-lg-6 col-xl-7 col-xxl-8 ms-sm-auto p-3">
             <div
                 id="posItemsNoloaded"
-                v-if="!productosArr"
+                v-if="productosArr.length === 0"
                 class="d-flex flex-column justify-content-center align-items-center p-5 m-5"
             >
                 <div class="spinner-border" role="status">
