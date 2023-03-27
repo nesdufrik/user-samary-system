@@ -6,6 +6,10 @@ export const useAuthStore = defineStore('auth', {
         return {
             islogIn: false,
             appLoading: false,
+            userData: {
+                name: '',
+                avatar: '',
+            },
         }
     },
     actions: {

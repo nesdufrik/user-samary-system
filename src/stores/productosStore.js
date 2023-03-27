@@ -16,4 +16,11 @@ export const useProductosStore = defineStore('productos', {
             this.productosArr = items
         },
     },
+    getters: {
+        etiquetasArr: state => {
+            return state.categoriasArr.reduce((final, item) => {
+                return final.concat(item.etiquetas)
+            }, [])
+        },
+    },
 })

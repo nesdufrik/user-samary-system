@@ -9,24 +9,32 @@
                 <PosCuenta />
             </div>
         </nav>
-        <div class="col-md-12 col-lg-6 col-xl-7 col-xxl-8 ms-sm-auto px-md-4">
-            <div class="row">
-                <div>Slider de Categorias y SubCategorias</div>
+        <div class="col-md-12 col-lg-6 col-xl-7 col-xxl-8 ms-sm-auto p-3">
+            <div
+                id="posItemsNoloaded"
+                v-if="!productosArr"
+                class="d-flex flex-column justify-content-center align-items-center p-5 m-5"
+            >
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <span class="fw-bold">Cargando...</span>
             </div>
-            <hr class="text-dark" />
-            <div v-if="productosArr.length === 0">Cargando...</div>
-            <div class="row row-cols-1 row-cols-xxl-2 g-3">
-                <PosItem
-                    v-for="item in productosArr"
-                    :key="item._id"
-                    :nombreProducto="item.name"
-                    :precioProducto="item.precio"
-                    :itemObj="item"
-                />
+            <div id="posItemsLoaded" v-else>
+                <div class="row">
+                    <div><PosSlide /></div>
+                </div>
+                <hr class="text-dark" />
+                <div class="row row-cols-1 row-cols-xxl-2 g-3">
+                    <PosItem
+                        v-for="item in productosArr"
+                        :key="item._id"
+                        :nombreProducto="item.name"
+                        :precioProducto="item.precio"
+                        :itemObj="item"
+                    />
+                </div>
             </div>
-            <!-- <div v-if="productosFilter == 0 && productosLoaded">
-                    Seleccione una categoria
-                </div> -->
         </div>
     </div>
 
@@ -34,12 +42,13 @@
 </template>
 
 <script setup>
+import PosSlide from '../components/pos/PosSlide.vue'
 import PosCarrito from '../components/pos/PosCarrito.vue'
 import PosCuenta from '../components/pos/PosCuenta.vue'
 import PosItem from '../components/pos/PosItem.vue'
 import { useProductos } from '../composables/useProductos'
 
-const { productosArr, categoriasArr, loadPOS } = useProductos()
+const { productosArr, loadPOS } = useProductos()
 
 loadPOS()
 </script>
@@ -51,7 +60,7 @@ loadPOS()
     bottom: 0;
     left: 0;
     z-index: 100; /* Behind the navbar */
-    padding: 6rem 0 0 1rem; /* Height of navbar */
+    padding: 5.27rem 0 0 1rem; /* Height of navbar */
 }
 
 .sidebar-sticky {

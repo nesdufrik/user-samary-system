@@ -6,7 +6,7 @@ import { useAuthStore } from '../stores/authStore'
 export const useAuth = () => {
     const router = useRouter()
     const authStore = useAuthStore()
-    const { islogIn, appLoading } = storeToRefs(authStore)
+    const { islogIn, appLoading, userData } = storeToRefs(authStore)
 
     const dirUrl = import.meta.env.VITE_REDIRECT_URL
 
@@ -23,8 +23,10 @@ export const useAuth = () => {
         }
 
         localStorage.setItem('token', token)
-        localStorage.setItem('name', oauthResponse.data.fullName)
-        localStorage.setItem('avatar', oauthResponse.data.avatar)
+        userData.value = {
+            name: oauthResponse.data.fullName,
+            avatar: oauthResponse.data.avatar,
+        }
         islogIn.value = true
         router.push('/')
         return
@@ -43,6 +45,7 @@ export const useAuth = () => {
         //! propiedades
         islogIn,
         appLoading,
+        userData,
 
         //! computadas
 

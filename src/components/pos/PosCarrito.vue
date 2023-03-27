@@ -11,77 +11,101 @@
                 <div class="img_container m-0 p-0">
                     <img src="../../assets/icons/pos.png" alt="" />
                 </div>
-                <span class="fs-3">Agregar items</span>
+                <span class="fs-5 text-secondary">Agregar items</span>
             </div>
         </div>
+
         <!-- carrito con items -->
-        <div
-            v-else
-            class="tarjeta row border-bottom p-1"
-            v-for="(item, index) in carritoOrden.pedido"
-        >
-            <div class="col-5 d-flex align-items-center">
-                <span>{{ item.name }}</span>
-            </div>
+
+        <div v-else v-for="(item, index) in carritoOrden.pedido">
             <div
-                class="col text-center d-flex justify-content-evenly align-items-center"
+                id="ordenCarritoAtentida"
+                v-if="item.pendiente == 0"
+                class="tarjeta row border-bottom p-1 text-decoration-line-through"
             >
-                <button
-                    class="btn text-danger"
-                    v-if="item.cantidad == 1"
-                    @click="quitar(index)"
+                <div class="col-5 d-flex align-items-center">
+                    <span>{{ item.name }}</span>
+                </div>
+                <div
+                    class="col text-center d-flex justify-content-evenly align-items-center"
                 >
-                    <span class="material-icons-round"> cancel </span>
-                </button>
-                <button class="btn" v-else @click="disminuir(index)">
-                    <span class="material-icons-round">
-                        do_not_disturb_on
-                    </span>
-                </button>
-                <span class="fw-bold">{{ item.cantidad }}</span>
-                <button class="btn fs-6" @click="aumentar(index)">
-                    <span class="material-icons-round"> add_circle </span>
-                </button>
-            </div>
-            <div class="col-2 d-flex flex-row g-0 align-items-center">
-                <div>
-                    <span class="fw-bold">{{
-                        (item.importe = importe(item.precio, item.cantidad))
-                    }}</span>
+                    <span>{{ item.cantidad }}</span>
+                </div>
+                <div class="col-2 d-flex flex-row g-0 align-items-center">
+                    {{ (item.importe = importe(item.precio, item.cantidad)) }}
                 </div>
             </div>
-            <div id="contenedorBotonNotas">
-                <button
-                    role="button"
-                    class="tarjeta__button"
-                    data-bs-toggle="collapse"
-                    :data-bs-target="'#flush-collapseOne' + index"
-                    aria-expanded="false"
-                    aria-controls="flush-collapseOne"
-                >
-                    <span
-                        v-if="item.nota"
-                        class="material-icons-round text-primary"
-                    >
-                        sticky_note_2
-                    </span>
-                    <span v-else class="material-icons-round text-secondary">
-                        sticky_note_2
-                    </span>
-                </button>
-            </div>
             <div
-                :id="'flush-collapseOne' + index"
-                class="accordion-collapse collapse"
+                id="ordenCarritoNoAtendida"
+                v-else
+                class="tarjeta row border-bottom p-1"
             >
-                <div class="form-floating mb-3 mt-2 mx-3">
-                    <input
-                        v-model="item.nota"
-                        type="text"
-                        class="form-control"
-                        id="floatingInput"
-                    />
-                    <label for="floatingInput">Nota:</label>
+                <div class="col-5 d-flex align-items-center">
+                    <span>{{ item.name }}</span>
+                </div>
+                <div
+                    class="col text-center d-flex justify-content-evenly align-items-center"
+                >
+                    <button
+                        class="btn text-danger"
+                        v-if="item.cantidad == 1"
+                        @click="quitar(index)"
+                    >
+                        <span class="material-icons-round"> cancel </span>
+                    </button>
+                    <button class="btn" v-else @click="disminuir(index)">
+                        <span class="material-icons-round">
+                            do_not_disturb_on
+                        </span>
+                    </button>
+                    <span class="fw-bold">{{ item.cantidad }}</span>
+                    <button class="btn fs-6" @click="aumentar(index)">
+                        <span class="material-icons-round"> add_circle </span>
+                    </button>
+                </div>
+                <div class="col-2 d-flex flex-row g-0 align-items-center">
+                    <div>
+                        <span class="fw-bold">{{
+                            (item.importe = importe(item.precio, item.cantidad))
+                        }}</span>
+                    </div>
+                </div>
+                <div id="contenedorBotonNotas">
+                    <button
+                        role="button"
+                        class="tarjeta__button"
+                        data-bs-toggle="collapse"
+                        :data-bs-target="'#flush-collapseOne' + index"
+                        aria-expanded="false"
+                        aria-controls="flush-collapseOne"
+                    >
+                        <span
+                            v-if="item.nota"
+                            class="material-icons-round text-primary"
+                        >
+                            sticky_note_2
+                        </span>
+                        <span
+                            v-else
+                            class="material-icons-round text-secondary"
+                        >
+                            sticky_note_2
+                        </span>
+                    </button>
+                </div>
+                <div
+                    :id="'flush-collapseOne' + index"
+                    class="accordion-collapse collapse"
+                >
+                    <div class="form-floating mb-3 mt-2 mx-3">
+                        <input
+                            v-model="item.nota"
+                            type="text"
+                            class="form-control"
+                            id="floatingInput"
+                        />
+                        <label for="floatingInput">Nota:</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,7 +123,7 @@ const importe = (aItem, bItem) => {
 
 <style scoped>
 .img_container {
-    width: 200px;
+    width: 100px;
 }
 
 .img_container img {

@@ -82,14 +82,16 @@
                                 aria-expanded="false"
                             >
                                 <img
-                                    :src="avatar"
+                                    :src="userData.avatar"
                                     alt="avatar"
                                     width="55"
                                     height="55"
                                     class="rounded-circle"
                                 />
                             </a>
-                            <span class="d-lg-none text-muted">{{ name }}</span>
+                            <span class="d-lg-none text-muted">{{
+                                userData.name
+                            }}</span>
                             <ul
                                 class="dropdown-menu text-small shadow dropdown-menu-lg-end"
                             >
@@ -134,11 +136,8 @@ import { RouterLink } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import { useNavBar } from '../composables/useNavBar'
 
-const { logout } = useAuth()
+const { userData, logout } = useAuth()
 const { itemsNavBar } = useNavBar()
-
-const name = ref(localStorage.getItem('name'))
-const avatar = ref(localStorage.getItem('avatar'))
 </script>
 
 <style lang="scss" scoped></style>

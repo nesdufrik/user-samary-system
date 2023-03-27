@@ -99,6 +99,10 @@ router.beforeEach(async (to, from, next) => {
                 return
             }
             store.islogIn = true
+            store.userData = {
+                name: verify.data.fullName,
+                avatar: verify.data.avatar,
+            }
         }
     }
     next()

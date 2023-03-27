@@ -1,6 +1,6 @@
 <template>
     <div
-        class="carrito__cobro bd-callout bd-callout-left bd-callout-secondary rounded-3 p-0 mb-2"
+        class="carrito__cobro bd-callout bd-callout-left bd-callout-secondary rounded-3 p-0"
     >
         <div
             id="contenidoPosCuenta"

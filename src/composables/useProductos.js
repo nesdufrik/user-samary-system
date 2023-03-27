@@ -5,7 +5,7 @@ import { useProductosStore } from '../stores/productosStore'
 export const useProductos = () => {
     const productosStore = useProductosStore()
 
-    const { categoriasArr, productosArr, actionState } =
+    const { categoriasArr, productosArr, actionState, etiquetasArr } =
         storeToRefs(productosStore)
 
     const loadPOS = async () => {
@@ -25,6 +25,9 @@ export const useProductos = () => {
         categoriasArr,
         productosArr,
         actionState,
+
+        //! computadas
+        etiquetasArr,
 
         //! metodos
         loadPOS,
