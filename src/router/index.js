@@ -45,6 +45,7 @@ const routes = [
                 meta: {
                     title: 'Ordenes en curso',
                 },
+                component: () => import('../pages/Ordenes.vue'),
             },
             {
                 path: 'reportes',
@@ -52,6 +53,7 @@ const routes = [
                 meta: {
                     title: 'Reporte del día',
                 },
+                component: () => import('../pages/Reportes.vue'),
             },
         ],
     },

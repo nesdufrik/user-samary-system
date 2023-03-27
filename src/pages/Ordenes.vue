@@ -36,17 +36,13 @@
             <div class="card tarjeta">
                 <div class="card-body">
                     <div>
-                        <h4 class="fw-semibold">
-                            {{ categoria.name }}
-                        </h4>
+                        <h4 class="fw-semibold">categoria.name</h4>
                         <div
                             class="d-inline-flex mb-1 px-1 py-1 fw-semibold text-success bg-success bg-opacity-10 border border-success border-opacity-10 rounded-2 me-1"
                             v-for="(etiqueta, index) in categoria.etiquetas"
                             :key="index"
                         >
-                            <span class="align-middle">
-                                {{ etiqueta }}
-                            </span>
+                            <span class="align-middle"> etiqueta </span>
                         </div>
                     </div>
                     <button
@@ -94,10 +90,10 @@
             </thead>
             <tbody>
                 <tr v-for="producto in productosArr" :key="producto._id">
-                    <td class="align-middle">{{ producto.name }}</td>
-                    <td class="align-middle">{{ producto.categoria }}</td>
-                    <td class="align-middle">{{ producto.etiqueta }}</td>
-                    <td class="align-middle">{{ producto.precio }}</td>
+                    <td class="align-middle">producto.name</td>
+                    <td class="align-middle">producto.categoria</td>
+                    <td class="align-middle">producto.etiqueta</td>
+                    <td class="align-middle">producto.precio</td>
                     <td class="align-middle text-end">
                         <span
                             class="tarjeta__link text-secondary material-icons-round me-md-2"
@@ -118,44 +114,9 @@
             </tbody>
         </table>
     </div>
-
-    <addCategoriaModal />
-    <editCategoriaModal />
-    <delCategoriaModal />
-
-    <addProductoModal />
-    <editProductoModal />
-    <delProductoModal />
 </template>
 
-<script setup>
-import addProductoModal from '../components/modalsProducto/addProducto.vue'
-import editProductoModal from '../components/modalsProducto/editProducto.vue'
-import delProductoModal from '../components/modalsProducto/delProducto.vue'
-import addCategoriaModal from '../components/modalsCategoria/addCategoria.vue'
-import editCategoriaModal from '../components/modalsCategoria/editCategoria.vue'
-import delCategoriaModal from '../components/modalsCategoria/delCategoria.vue'
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
-import { useProductos } from '../composables/useProductos'
-
-const {
-    categoriasArr,
-    productosArr,
-    listCategorias,
-    editarCategoria,
-    listProductos,
-    editarProducto,
-} = useProductos()
-
-const route = useRoute()
-const cat_switch = ref(true)
-const switched = () => {
-    cat_switch.value = !cat_switch.value
-}
-listCategorias(route.params.id)
-listProductos(route.params.id)
-</script>
+<script setup></script>
 <style scoped>
 .tarjeta {
     position: relative;
