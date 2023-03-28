@@ -1,14 +1,11 @@
 <template>
     <div
-        class="offcanvas offcanvas-start"
+        class="offcanvas offcanvas-start menu-cart"
         tabindex="-1"
         id="carritoPosOffCanvas"
         aria-labelledby="carritoPosOffCanvasLabel"
     >
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="carritoPosOffCanvasLabel">
-                Carrito
-            </h5>
+        <div class="p-0 mb-0">
             <button
                 type="button"
                 class="btn-close"
@@ -16,7 +13,7 @@
                 aria-label="Close"
             ></button>
         </div>
-        <div class="offcanvas-body">
+        <div class="sidebar-sticky">
             <PosCarrito />
             <PosCuenta />
         </div>
@@ -28,4 +25,15 @@ import PosCarrito from './PosCarrito.vue'
 import PosCuenta from './PosCuenta.vue'
 </script>
 
-<style scoped></style>
+<style scoped>
+.sidebar-sticky {
+    height: calc(100vh - 1.8rem);
+    padding: 0.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-cart {
+    background: #e2e2e2;
+}
+</style>
