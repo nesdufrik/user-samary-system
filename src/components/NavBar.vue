@@ -6,6 +6,22 @@
             class="container-xl bd-gutter flex-wrap flex-lg-nowrap"
             aria-label="Main navigation"
         >
+            <div class="d-lg-none" style="width: 1.5rem">
+                <div class="d-flex">
+                    <button
+                        class="navbar-toggler d-flex d-lg-none order-3 p-2"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#carritoPosOffCanvas"
+                        aria-controls="bdNavbar"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="material-icons-round">
+                            shopping_cart
+                        </span>
+                    </button>
+                </div>
+            </div>
             <RouterLink
                 class="p-lg-3 my-2 my-lg-0 me-lg-auto text-white text-decoration-none"
                 :to="`/`"
@@ -19,8 +35,8 @@
                     class="navbar-toggler d-flex d-lg-none order-3 p-2"
                     type="button"
                     data-bs-toggle="offcanvas"
-                    data-bs-target="#bdNavbar"
-                    aria-controls="bdNavbar"
+                    data-bs-target="#navBarPos"
+                    aria-controls="navBarPos"
                     aria-label="Toggle navigation"
                 >
                     <span class="material-icons-round"> menu </span>
@@ -30,14 +46,14 @@
             <div
                 class="offcanvas-lg offcanvas-end flex-grow-1 bg-dark"
                 tabindex="-1"
-                id="bdNavbar"
-                aria-labelledby="bdNavbarOffcanvasLabel"
+                id="navBarPos"
+                aria-labelledby="navBarPosOffcanvasLabel"
                 data-bs-scroll="true"
             >
                 <div class="offcanvas-header px-4 pb-0">
                     <h5
                         class="offcanvas-title text-white"
-                        id="bdNavbarOffcanvasLabel"
+                        id="navBarPosOffcanvasLabel"
                     >
                         Samary
                     </h5>
@@ -46,7 +62,7 @@
                         class="btn-close btn-close-white"
                         data-bs-dismiss="offcanvas"
                         aria-label="Close"
-                        data-bs-target="#bdNavbar"
+                        data-bs-target="#navBarPos"
                     ></button>
                 </div>
 
@@ -128,9 +144,11 @@
             </div>
         </nav>
     </header>
+    <PosCarritoOffCanvas />
 </template>
 
 <script setup>
+import PosCarritoOffCanvas from './pos/PosCarritoOffCanvas.vue'
 import { RouterLink } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import { useNavBar } from '../composables/useNavBar'
