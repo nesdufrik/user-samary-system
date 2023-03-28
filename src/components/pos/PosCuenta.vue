@@ -121,7 +121,7 @@
                 type="button"
                 class="btn-modal btn-modal-primary btn-modal-right col-6 fw-bold"
                 data-bs-toggle="modal"
-                data-bs-target="#placeOrder"
+                data-bs-target="#createPosOrden"
             >
                 Realizar Pedido
             </button>

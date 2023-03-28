@@ -1,6 +1,7 @@
 import { createApp, markRaw } from 'vue'
 import BootstrapVueNext from 'bootstrap-vue-next'
 import VueApexCharts from 'vue3-apexcharts'
+import VueHtmlToPaper from './plugins/VueHtmlToPaper'
 
 import App from './App.vue'
 import pinia from './stores'
@@ -22,5 +23,6 @@ app.use(VueApexCharts)
 app.use(pinia)
 app.use(router)
 app.use(BootstrapVueNext)
+app.use(VueHtmlToPaper)
 
 app.mount('#app')
