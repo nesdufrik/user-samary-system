@@ -9,7 +9,7 @@
             <div class="d-lg-none" style="width: 1.5rem">
                 <div class="d-flex">
                     <button
-                        class="navbar-toggler d-flex d-lg-none order-3 p-2"
+                        class="navbar-toggler d-flex d-lg-none order-3 p-2 position-relative"
                         type="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#carritoPosOffCanvas"
@@ -18,6 +18,12 @@
                     >
                         <span class="material-icons-round">
                             shopping_cart
+                        </span>
+                        <span
+                            v-if="carritoOrden.pedido.lenght !== 0"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        >
+                            {{ carritoOrden.pedido.length }}
                         </span>
                     </button>
                 </div>
@@ -152,9 +158,11 @@ import PosCarritoOffCanvas from './pos/PosCarritoOffCanvas.vue'
 import { RouterLink } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import { useNavBar } from '../composables/useNavBar'
+import { useCarrito } from '../composables/useCarrito'
 
 const { userData, logout } = useAuth()
 const { itemsNavBar } = useNavBar()
+const { carritoOrden } = useCarrito()
 </script>
 
 <style lang="scss" scoped></style>
