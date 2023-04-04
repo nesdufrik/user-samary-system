@@ -70,6 +70,7 @@
                     >
                         <div class="form-floating">
                             <input
+                                v-model="carritoOrden.cliente.name"
                                 type="text"
                                 class="form-control"
                                 id="floatingNombreHuesped"
@@ -80,6 +81,7 @@
                         </div>
                         <div class="form-floating">
                             <input
+                                v-model="carritoOrden.cliente.nota"
                                 type="number"
                                 class="form-control"
                                 id="floatingHabitacionHuesped"
@@ -90,6 +92,7 @@
                         </div>
                         <div class="form-floating">
                             <input
+                                v-model="carritoOrden.mesa"
                                 type="number"
                                 class="form-control"
                                 id="floatingMesaCliente"
@@ -109,7 +112,6 @@
                     <button
                         type="button"
                         class="btn-modal btn-modal-right btn-modal-primary col fw-bold"
-                        data-bs-dismiss="modal"
                         data-bs-target="#createPosOrdenEnd"
                         data-bs-toggle="modal"
                     >
@@ -143,27 +145,40 @@
                     >
                         <div class="text-start d-flex flex-column fst-italic">
                             <div class="mb-3">
-                                <div class="fs-5">
+                                <div
+                                    class="fs-5"
+                                    v-if="carritoOrden.cliente.name"
+                                >
                                     <span>Cliente: </span>
-                                    <span class="fw-bold">nombre completo</span>
+                                    <span class="fw-bold">{{
+                                        carritoOrden.cliente.name
+                                    }}</span>
                                 </div>
                                 <div class="fs-5">
                                     <span>Mesa: </span>
-                                    <span class="fw-bold">4</span>
+                                    <span class="fw-bold">{{
+                                        carritoOrden.mesa
+                                    }}</span>
                                 </div>
-                                <div>
+                                <div v-if="carritoOrden.cliente.nota">
                                     <span>Habitación: </span>
-                                    <span class="fw-bold"> 23 </span>
+                                    <span class="fw-bold">
+                                        {{ carritoOrden.cliente.nota }}
+                                    </span>
                                 </div>
                             </div>
                             <div id="ordenDataPedidosItems">
-                                <div class="d-flex" v-for="item in 20">
-                                    <span class="me-3">1</span>
-                                    <span
-                                        >Tallarines con salsa bolognesa y muchas
-                                        cosas delis mas</span
-                                    >
-                                    <span class="ms-auto fw-bold">Precio</span>
+                                <div
+                                    class="d-flex"
+                                    v-for="item in carritoOrden.pedido"
+                                >
+                                    <span class="me-3">{{
+                                        item.cantidad
+                                    }}</span>
+                                    <span>{{ item.name }}</span>
+                                    <span class="ms-auto fw-bold">{{
+                                        item.importe
+                                    }}</span>
                                 </div>
                             </div>
                         </div>
@@ -180,17 +195,18 @@
                     <button
                         type="button"
                         class="btn-modal btn-modal-right btn-modal-primary col fw-bold"
-                        data-bs-dismiss="modal"
+                        data-bs-target="#createPosOrdenMessage"
+                        data-bs-toggle="modal"
                         @click="imprimir"
                     >
-                        Continuar
+                        Realizar orden
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Message Create Empleado -->
-    <!-- <div
+    <!-- Message Create Orden -->
+    <div
         class="modal fade"
         id="createPosOrdenMessage"
         tabindex="-1"
@@ -220,10 +236,10 @@
                             aria-hidden="true"
                         ></span
                         ><br />
-                        Actualizando...
+                        Generando Orden...
                     </p>
                     <p v-else class="fs-4 fw-bold text-success">
-                        Se actualizo ¡Correctamente!
+                        Se realizo la orden ¡Correctamente!
                     </p>
                 </div>
                 <div class="modal-footer p-0">
@@ -256,28 +272,30 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+import { getCurrentInstance } from 'vue'
+import { useCarrito } from '../../composables/useCarrito'
+import { useOrdenes } from '../../composables/useOrdenes'
+const instance = getCurrentInstance()
+const { carritoOrden, actionState } = useCarrito()
+const { ordenar, errorApi } = useOrdenes()
 
-export default defineComponent({
-    name: 'Home',
-    components: {},
-    methods: {
-        imprimir() {
-            this.$htmlToPaper('ordenDataToPrint', {
-                name: '_blank',
-                specs: ['fullscreen=no', 'titlebar=no', 'scrollbars=no'],
-                styles: [
-                    'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css',
-                ],
-            })
-        },
-    },
-    mounted() {},
-})
+const imprimir = () => {
+    ordenar()
+    instance.appContext.config.globalProperties.$htmlToPaper(
+        'ordenDataToPrint',
+        {
+            name: '_blank',
+            specs: ['fullscreen=no', 'titlebar=no', 'scrollbars=no'],
+            styles: [
+                'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css',
+            ],
+        }
+    )
+}
 </script>
 
 <style scoped>

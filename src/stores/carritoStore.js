@@ -13,6 +13,7 @@ export const useCarritoStore = defineStore('carrito', {
             pagoCliente: 0,
             metodoPago: '',
             actionState: false,
+            errorApi: {},
         }
     },
     actions: {
