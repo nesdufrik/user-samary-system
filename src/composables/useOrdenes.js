@@ -31,6 +31,7 @@ export const useOrdenes = () => {
     }
 
     return {
+        ordenesArr,
         errorApi,
 
         ordenar,
