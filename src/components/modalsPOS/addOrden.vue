@@ -29,6 +29,8 @@
                         </button>
                         <button
                             class="btn-cotenido-modal btn-modal-primary fw-bold"
+                            data-bs-target="#createPosOrdenExterno"
+                            data-bs-toggle="modal"
                         >
                             Externo
                         </button>
@@ -122,6 +124,70 @@
         </div>
     </div>
 
+    <!-- Datos de Husped -->
+    <div
+        class="modal fade"
+        id="createPosOrdenExterno"
+        tabindex="-1"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        role="dialog"
+        aria-labelledby="createSucursalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <h2 class="modal-title fw-bold mb-4" id="exampleModalLabel">
+                        Huesped
+                    </h2>
+                    <div
+                        id="formHuespedData"
+                        class="row d-flex flex-column px-4 g-2"
+                    >
+                        <div class="form-floating">
+                            <input
+                                v-model="carritoOrden.cliente.name"
+                                type="text"
+                                class="form-control"
+                                id="floatingNombreHuesped"
+                            />
+                            <label for="floatingNombreHuesped"
+                                >Nombre de cliente</label
+                            >
+                        </div>
+                        <div class="form-floating">
+                            <input
+                                v-model="carritoOrden.mesa"
+                                type="number"
+                                class="form-control"
+                                id="floatingMesaCliente"
+                            />
+                            <label for="floatingMesaCliente">Mesa</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer p-0">
+                    <button
+                        type="button"
+                        class="btn-modal btn-modal-left btn-modal-secondary col fw-bold"
+                        data-bs-dismiss="modal"
+                    >
+                        Cerrar
+                    </button>
+                    <button
+                        type="button"
+                        class="btn-modal btn-modal-right btn-modal-primary col fw-bold"
+                        data-bs-target="#createPosOrdenEnd"
+                        data-bs-toggle="modal"
+                    >
+                        Continuar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Realizar orden / Imprimir nota -->
     <div
         class="modal fade"
@@ -168,18 +234,20 @@
                                 </div>
                             </div>
                             <div id="ordenDataPedidosItems">
-                                <div
-                                    class="d-flex"
-                                    v-for="item in carritoOrden.pedido"
-                                >
-                                    <span class="me-3">{{
-                                        item.cantidad
-                                    }}</span>
-                                    <span>{{ item.name }}</span>
-                                    <span class="ms-auto fw-bold">{{
-                                        item.importe
-                                    }}</span>
-                                </div>
+                                <template v-for="item in carritoOrden.pedido">
+                                    <div
+                                        class="d-flex"
+                                        v-if="item.pendiente !== 0"
+                                    >
+                                        <span class="me-3">{{
+                                            item.cantidad
+                                        }}</span>
+                                        <span>{{ item.name }}</span>
+                                        <span class="ms-auto fw-bold">{{
+                                            item.importe
+                                        }}</span>
+                                    </div>
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -280,8 +348,8 @@ import { getCurrentInstance } from 'vue'
 import { useCarrito } from '../../composables/useCarrito'
 import { useOrdenes } from '../../composables/useOrdenes'
 const instance = getCurrentInstance()
-const { carritoOrden, actionState } = useCarrito()
-const { ordenar, errorApi } = useOrdenes()
+const { carritoOrden } = useCarrito()
+const { ordenar, actionState, errorApi } = useOrdenes()
 
 const imprimir = () => {
     ordenar()

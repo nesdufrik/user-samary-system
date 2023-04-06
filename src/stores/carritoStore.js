@@ -12,8 +12,6 @@ export const useCarritoStore = defineStore('carrito', {
             cuponDesc: 0,
             pagoCliente: 0,
             metodoPago: '',
-            actionState: false,
-            errorApi: {},
         }
     },
     actions: {

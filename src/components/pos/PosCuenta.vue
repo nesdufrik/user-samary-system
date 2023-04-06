@@ -117,6 +117,15 @@
                 Realizar Pedido
             </button>
             <button
+                v-else-if="carritoOrden.tipo"
+                type="button"
+                class="btn-modal btn-modal-primary btn-modal-right col-6 fw-bold"
+                data-bs-toggle="modal"
+                data-bs-target="#createPosOrdenEnd"
+            >
+                Actualizar Pedido
+            </button>
+            <button
                 v-else
                 type="button"
                 class="btn-modal btn-modal-primary btn-modal-right col-6 fw-bold"

@@ -63,10 +63,14 @@
                             >
                             <span
                                 class="tarjeta__link text-secondary material-icons-round me-md-1"
+                                @click="manageOrden(orden._id)"
                                 >edit</span
                             >
                             <span
                                 class="tarjeta__link text-danger material-icons-round"
+                                data-bs-target="#deleteOrdenModal"
+                                data-bs-toggle="modal"
+                                @click="selectOrden(orden._id)"
                                 >delete</span
                             >
                         </td>
@@ -97,27 +101,50 @@
         class="bg-light rounded-3 table-responsive p-2 accordion-collapse collapse"
     >
         <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th colspan="3" class="align-middle fs-4">Ordenes</th>
-                    <th colspan="2" class="align-middle">Precio Bs.</th>
-                </tr>
-            </thead>
             <tbody>
                 <template v-for="orden in ordenesArr" :key="orden._id">
                     <tr v-if="orden.estado === 'finalizado'">
-                        <td class="align-middle">{{ orden.empleado }}</td>
-                        <td class="align-middle">{{ orden.mesa }}</td>
-                        <td class="align-middle">{{ orden.tipo }}</td>
-                        <td class="align-middle">{{ orden.total }}</td>
+                        <td class="align-middle">
+                            <div class="d-flex align-items-center">
+                                <img
+                                    :src="orden.empleado.avatar"
+                                    width="30"
+                                    height="30"
+                                    :alt="'avatar-' + orden.empleado.fullName"
+                                    class="me-2"
+                                />
+                                <span class="fw-bold">{{
+                                    orden.empleado.fullName
+                                }}</span>
+                            </div>
+                        </td>
+                        <td class="align-middle fw-bold">
+                            <div
+                                class="d-flex justify-content-between flex-wrap"
+                            >
+                                <div>
+                                    <span class="text-secondary">Mesa: </span
+                                    >{{ orden.mesa }}
+                                </div>
+                                <div>
+                                    <span class="text-secondary">Ordenes: </span
+                                    >{{ orden.pedido.length }}
+                                </div>
+                                <div>
+                                    <span class="text-secondary">Total: </span
+                                    >{{ orden.total }} Bs.
+                                </div>
+                            </div>
+                        </td>
                         <td class="align-middle text-end">
                             <span
-                                class="tarjeta__link text-secondary material-icons-round me-md-2"
-                                >edit</span
+                                class="tarjeta__link text-success material-icons-round me-md-2"
+                                >payment</span
                             >
                             <span
-                                class="tarjeta__link text-danger material-icons-round"
-                                >delete</span
+                                class="tarjeta__link text-secondary material-icons-round"
+                                @click="manageOrden(orden._id)"
+                                >add_circle_outline</span
                             >
                         </td>
                     </tr>
@@ -175,12 +202,15 @@
             </tbody>
         </table>
     </div>
+
+    <DeleteOrdenModel />
 </template>
 
 <script setup>
+import DeleteOrdenModel from '../components/modasOrden/DeleteOrden.vue'
 import { useOrdenes } from '../composables/useOrdenes'
 
-const { ordenesArr, listOrdenes } = useOrdenes()
+const { ordenesArr, listOrdenes, manageOrden, selectOrden } = useOrdenes()
 listOrdenes()
 </script>
 <style scoped>
