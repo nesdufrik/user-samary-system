@@ -61,7 +61,7 @@ import PosSlide from '../components/pos/PosSlide.vue'
 import PosCarrito from '../components/pos/PosCarrito.vue'
 import PosCuenta from '../components/pos/PosCuenta.vue'
 import PosItem from '../components/pos/PosItem.vue'
-import AddOrdenModal from '../components/modalsPOS/AddOrden.vue'
+import AddOrdenModal from '../components/modalsOrden/AddOrden.vue'
 import { useProductos } from '../composables/useProductos'
 
 const { productosArr, productosFiltered, loadPOS } = useProductos()

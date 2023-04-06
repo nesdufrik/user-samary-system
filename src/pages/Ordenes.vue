@@ -207,7 +207,7 @@
 </template>
 
 <script setup>
-import DeleteOrdenModel from '../components/modasOrden/DeleteOrden.vue'
+import DeleteOrdenModel from '../components/modalsOrden/DeleteOrden.vue'
 import { useOrdenes } from '../composables/useOrdenes'
 
 const { ordenesArr, listOrdenes, manageOrden, selectOrden } = useOrdenes()
