@@ -11,6 +11,7 @@
                 class="btn-close"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
+                data-bs-target="#carritoPosOffCanvas"
             ></button>
         </div>
         <div class="sidebar-sticky">
