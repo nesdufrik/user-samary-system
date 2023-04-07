@@ -14,9 +14,9 @@ export const getOrdenes = async () => {
         .catch(err => err.response.data)
 }
 
-export const putOrden = async payload => {
+export const putOrden = async (ordenId, payload) => {
     return axios
-        .put(`/ordenes/id`, payload)
+        .put(`/ordenes/id/${ordenId}`, payload)
         .then(res => res.data)
         .catch(err => err.response.data)
 }

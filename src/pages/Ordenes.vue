@@ -3,7 +3,12 @@
         class="tarjeta rounded-2 bd-callout bd-callout-left bd-callout-secondary p-2"
     >
         <div>
-            <h2 class="fw-bold m-0">Ordenes Pendientes</h2>
+            <h2 class="fw-bold m-0 d-flex align-items-center">
+                Ordenes Pendientes
+                <span class="badge bg-secondary fs-6 ms-2">{{
+                    nroPendientes
+                }}</span>
+            </h2>
         </div>
         <button
             class="tarjeta__button link-secondary align-middle material-icons-round"
@@ -42,23 +47,33 @@
                             <div
                                 class="d-flex justify-content-between flex-wrap"
                             >
-                                <div>
+                                <div class="me-3">
                                     <span class="text-secondary">Mesa: </span
                                     >{{ orden.mesa }}
                                 </div>
-                                <div>
+                                <div class="me-3">
                                     <span class="text-secondary">Ordenes: </span
                                     >{{ orden.pedido.length }}
                                 </div>
-                                <div>
-                                    <span class="text-secondary">Total: </span
-                                    >{{ orden.total }} Bs.
+                                <div
+                                    class="me-3"
+                                    v-if="orden.createdAt == orden.updatedAt"
+                                >
+                                    <span class="text-secondary">Hora: </span
+                                    >{{ timeOrden(orden.createdAt) }}
+                                </div>
+                                <div class="me-3" v-else>
+                                    <span class="text-secondary">Hora: </span
+                                    >{{ timeOrden(orden.updatedAt) }}
                                 </div>
                             </div>
                         </td>
                         <td class="align-middle text-end">
                             <span
                                 class="tarjeta__link text-success material-icons-round me-md-2"
+                                @click="selectOrdenObject(orden._id)"
+                                data-bs-target="#checkOrdenModal"
+                                data-bs-toggle="modal"
                                 >check_circle_outline</span
                             >
                             <span
@@ -83,7 +98,12 @@
         class="tarjeta rounded-2 bd-callout bd-callout-left bd-callout-secondary p-2 d-flex justify-content-between align-items-center"
     >
         <div>
-            <h2 class="fw-bold m-0">Ordenes Atendidas</h2>
+            <h2 class="fw-bold m-0 d-flex align-items-center">
+                Ordenes Atendidas
+                <span class="badge bg-secondary fs-6 ms-2">{{
+                    nroAtendidos
+                }}</span>
+            </h2>
         </div>
         <button
             class="tarjeta__button link-secondary align-middle material-icons-round"
@@ -156,7 +176,12 @@
         class="tarjeta rounded-2 bd-callout bd-callout-left bd-callout-secondary p-2 d-flex justify-content-between align-items-center"
     >
         <div>
-            <h2 class="fw-bold m-0">Ordenes Terminadas</h2>
+            <h2 class="fw-bold m-0 d-flex align-items-center">
+                Ordenes Terminadas
+                <span class="badge bg-secondary fs-6 ms-2">{{
+                    nroTerminados
+                }}</span>
+            </h2>
         </div>
         <button
             class="tarjeta__button link-secondary align-middle material-icons-round"
@@ -203,14 +228,27 @@
         </table>
     </div>
 
-    <DeleteOrdenModel />
+    <DeleteOrdenModal />
+    <CheckOrdenModal />
 </template>
 
 <script setup>
-import DeleteOrdenModel from '../components/modalsOrden/DeleteOrden.vue'
+import DeleteOrdenModal from '../components/modalsOrden/DeleteOrden.vue'
+import CheckOrdenModal from '../components/modalsOrden/CheckOrden.vue'
 import { useOrdenes } from '../composables/useOrdenes'
 
-const { ordenesArr, listOrdenes, manageOrden, selectOrden } = useOrdenes()
+const {
+    ordenesArr,
+    nroAtendidos,
+    nroPendientes,
+    nroTerminados,
+    timeOrden,
+    listOrdenes,
+    manageOrden,
+    selectOrden,
+    selectOrdenObject,
+} = useOrdenes()
+
 listOrdenes()
 </script>
 <style scoped>

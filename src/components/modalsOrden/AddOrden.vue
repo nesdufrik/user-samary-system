@@ -267,7 +267,8 @@
                         data-bs-toggle="modal"
                         @click="imprimir"
                     >
-                        Realizar orden
+                        <span v-if="carritoOrden.estado">Actualizar orden</span>
+                        <span v-else>Realizar orden</span>
                     </button>
                 </div>
             </div>
@@ -333,7 +334,6 @@
                         type="button"
                         class="btn-modal btn-modal-block btn-modal-secondary col fw-bold"
                         data-bs-dismiss="modal"
-                        @click="cleanForm"
                     >
                         Cerrar
                     </button>
@@ -349,10 +349,12 @@ import { useCarrito } from '../../composables/useCarrito'
 import { useOrdenes } from '../../composables/useOrdenes'
 const instance = getCurrentInstance()
 const { carritoOrden } = useCarrito()
-const { ordenar, actionState, errorApi } = useOrdenes()
+const { ordenar, actualizar, actionState, errorApi } = useOrdenes()
 
 const imprimir = () => {
-    ordenar()
+    if (!carritoOrden.value.estado) ordenar()
+    if (carritoOrden.value.estado) actualizar()
+
     instance.appContext.config.globalProperties.$htmlToPaper(
         'ordenDataToPrint',
         {

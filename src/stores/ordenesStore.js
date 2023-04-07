@@ -5,6 +5,7 @@ export const useOrdenesStore = defineStore('ordenes', {
         return {
             ordenesArr: [],
             ordenIdSelected: '',
+            ordenSelected: { cliente: {} },
             actionState: false,
             errorApi: {},
         }
@@ -15,6 +16,12 @@ export const useOrdenesStore = defineStore('ordenes', {
         },
         deleteOrden(id) {
             this.ordenesArr = this.ordenesArr.filter(el => el._id !== id)
+        },
+        updateOrden(data) {
+            const indiceEl = this.ordenesArr.findIndex(
+                el => el._id == data.data._id
+            )
+            this.ordenesArr[indiceEl] = data.data
         },
     },
 })

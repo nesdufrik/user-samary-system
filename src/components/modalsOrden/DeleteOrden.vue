@@ -29,7 +29,6 @@
                         type="button"
                         class="btn-modal btn-modal-left btn-modal-secondary col-6 fw-bold"
                         data-bs-dismiss="modal"
-                        @click="cleanForm"
                     >
                         Cerrar
                     </button>
@@ -80,7 +79,6 @@
                     </p>
 
                     <p v-else>
-                        El empleado
                         <span class="text-danger fs-5 fw-bold"> La orden</span>,
                         fue eliminada correctamente.
                     </p>
