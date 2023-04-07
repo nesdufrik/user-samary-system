@@ -5,17 +5,17 @@
         id="carritoPosOffCanvas"
         aria-labelledby="carritoPosOffCanvasLabel"
     >
-        <div class="sidebar-sticky tarjeta">
-            <PosCarrito />
-            <PosCuenta />
+        <div class="offcanvas-header pb-0">
             <button
                 type="button"
-                class="tarjeta__button material-icons-round"
+                class="btn-close"
                 data-bs-dismiss="offcanvas"
                 aria-label="Close"
-            >
-                clear
-            </button>
+            ></button>
+        </div>
+        <div class="sidebar-sticky">
+            <PosCarrito />
+            <PosCuenta />
         </div>
     </div>
 </template>
