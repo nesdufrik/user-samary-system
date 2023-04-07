@@ -124,7 +124,7 @@
         </div>
     </div>
 
-    <!-- Datos de Husped -->
+    <!-- Datos de Externo -->
     <div
         class="modal fade"
         id="createPosOrdenExterno"
@@ -139,7 +139,7 @@
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <h2 class="modal-title fw-bold mb-4" id="exampleModalLabel">
-                        Huesped
+                        Cliente
                     </h2>
                     <div
                         id="formHuespedData"
@@ -240,7 +240,7 @@
                                         v-if="item.pendiente !== 0"
                                     >
                                         <span class="me-3">{{
-                                            item.cantidad
+                                            item.pendiente
                                         }}</span>
                                         <span>{{ item.name }}</span>
                                         <span class="ms-auto fw-bold">{{

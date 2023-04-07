@@ -63,7 +63,7 @@
                                     </div>
                                     <!-- item atendido -->
                                     <div
-                                        class="d-flex"
+                                        class="d-flex mb-3"
                                         v-else-if="item.pendiente === 0"
                                     >
                                         <span
@@ -80,9 +80,9 @@
                                         >
                                     </div>
                                     <!-- item pendiente -->
-                                    <div class="d-flex" v-else>
+                                    <div class="d-flex mb-3" v-else>
                                         <span class="me-3">{{
-                                            item.cantidad
+                                            item.pendiente
                                         }}</span>
                                         <span>{{ item.name }}</span>
                                         <span
