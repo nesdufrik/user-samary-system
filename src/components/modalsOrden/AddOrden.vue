@@ -243,9 +243,6 @@
                                             item.pendiente
                                         }}</span>
                                         <span>{{ item.name }}</span>
-                                        <span class="ms-auto fw-bold">{{
-                                            item.importe
-                                        }}</span>
                                     </div>
                                 </template>
                             </div>

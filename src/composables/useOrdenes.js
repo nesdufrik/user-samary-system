@@ -86,7 +86,7 @@ export const useOrdenes = () => {
         ordenIdSelected.value = id
     }
 
-    const selectOrdenObject = id => {
+    const selectOrdenToCheck = id => {
         const { _id, cliente, mesa, pedido, estado } = ordenesArr.value.find(
             el => el._id == id
         )
@@ -97,6 +97,20 @@ export const useOrdenes = () => {
             mesa,
             pedido,
             estado,
+        }
+    }
+
+    const selectOrdenToPay = id => {
+        const { _id, cliente, mesa, pedido, estado, total } =
+            ordenesArr.value.find(el => el._id == id)
+
+        ordenSelected.value = {
+            _id,
+            cliente: cliente ?? {},
+            mesa,
+            pedido,
+            estado,
+            total,
         }
     }
 
@@ -111,7 +125,6 @@ export const useOrdenes = () => {
         if (totalPendientes.length === 0) {
             ordenSelected.value.estado = 'finalizado'
         }
-        console.log(ordenSelected.value.estado)
         const response = await putOrden(
             ordenSelected.value._id,
             ordenSelected.value
@@ -149,16 +162,18 @@ export const useOrdenes = () => {
     const nroPendientes = computed(() => totalEstado('pendiente'))
     const nroAtendidos = computed(() => totalEstado('finalizado'))
     const nroTerminados = computed(() => totalEstado('terminado'))
-
     const timeOrden = computed(() => {
         return date => formatDate(date)
+    })
+
+    const nroTotalPedientes = computed(() => {
+        return total => totalPendiente(total)
     })
 
     function totalEstado(estado) {
         const total = ordenesArr.value.filter(el => el.estado === estado)
         return total.length
     }
-
     function formatDate(date) {
         const isoDate = new Date(date)
         const hora = isoDate.toLocaleTimeString([], {
@@ -167,6 +182,11 @@ export const useOrdenes = () => {
             hour12: false,
         })
         return hora
+    }
+    function totalPendiente(array) {
+        // const total = array.reduce((acc, el) => acc + (el.pendiente || 0), 0)
+        const total = array.reduce((acc, el) => acc + (el.pendiente ? 1 : 0), 0)
+        return total
     }
 
     return {
@@ -179,6 +199,7 @@ export const useOrdenes = () => {
         nroAtendidos,
         nroTerminados,
         timeOrden,
+        nroTotalPedientes,
 
         ordenar,
         borrar,
@@ -187,6 +208,7 @@ export const useOrdenes = () => {
         listOrdenes,
         manageOrden,
         selectOrden,
-        selectOrdenObject,
+        selectOrdenToCheck,
+        selectOrdenToPay,
     }
 }

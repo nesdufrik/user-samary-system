@@ -1,4 +1,5 @@
 <template>
+    <!-- #Section Pendientes -->
     <div
         class="tarjeta rounded-2 bd-callout bd-callout-left bd-callout-secondary p-2"
     >
@@ -20,7 +21,7 @@
             visibility
         </button>
     </div>
-    <!-- Lista de Ordenes -->
+    <!-- ##Table Ordenes Pendientes -->
     <div
         id="viewOrdenesPendientes"
         class="bg-light rounded-3 table-responsive p-2 accordion-collapse collapse show"
@@ -52,8 +53,9 @@
                                     >{{ orden.mesa }}
                                 </div>
                                 <div class="me-3">
-                                    <span class="text-secondary">Ordenes: </span
-                                    >{{ orden.pedido.length }}
+                                    <span class="text-secondary"
+                                        >Pendientes: </span
+                                    >{{ nroTotalPedientes(orden.pedido) }}
                                 </div>
                                 <div
                                     class="me-3"
@@ -71,7 +73,7 @@
                         <td class="align-middle text-end">
                             <span
                                 class="tarjeta__link text-success material-icons-round me-md-2"
-                                @click="selectOrdenObject(orden._id)"
+                                @click="selectOrdenToCheck(orden._id)"
                                 data-bs-target="#checkOrdenModal"
                                 data-bs-toggle="modal"
                                 >check_circle_outline</span
@@ -94,6 +96,7 @@
             </tbody>
         </table>
     </div>
+    <!-- #Section Atendidas -->
     <div
         class="tarjeta rounded-2 bd-callout bd-callout-left bd-callout-secondary p-2 d-flex justify-content-between align-items-center"
     >
@@ -115,7 +118,7 @@
             visibility
         </button>
     </div>
-    <!-- Lista de Ordenes Atendidas -->
+    <!-- ##Table Ordenes Atendidas -->
     <div
         id="viewOrdenesAtendidas"
         class="bg-light rounded-3 table-responsive p-2 accordion-collapse collapse"
@@ -139,18 +142,12 @@
                             </div>
                         </td>
                         <td class="align-middle fw-bold">
-                            <div
-                                class="d-flex justify-content-between flex-wrap"
-                            >
+                            <div class="d-flex flex-wrap">
                                 <div>
                                     <span class="text-secondary">Mesa: </span
                                     >{{ orden.mesa }}
                                 </div>
-                                <div>
-                                    <span class="text-secondary">Ordenes: </span
-                                    >{{ orden.pedido.length }}
-                                </div>
-                                <div>
+                                <div class="ms-auto">
                                     <span class="text-secondary">Total: </span
                                     >{{ orden.total }} Bs.
                                 </div>
@@ -159,6 +156,9 @@
                         <td class="align-middle text-end">
                             <span
                                 class="tarjeta__link text-success material-icons-round me-md-2"
+                                @click="selectOrdenToPay(orden._id)"
+                                data-bs-target="#payOrdenModal"
+                                data-bs-toggle="modal"
                                 >payment</span
                             >
                             <span
@@ -172,6 +172,7 @@
             </tbody>
         </table>
     </div>
+    <!-- #Section Terminadas -->
     <div
         class="tarjeta rounded-2 bd-callout bd-callout-left bd-callout-secondary p-2 d-flex justify-content-between align-items-center"
     >
@@ -193,7 +194,7 @@
             visibility
         </button>
     </div>
-    <!-- Lista de Ordenes Pagadas -->
+    <!-- ##Table Ordenes Terminadas -->
     <div
         id="viewOrdenesTerminadas"
         class="bg-light rounded-3 table-responsive p-2 accordion-collapse collapse"
@@ -230,11 +231,13 @@
 
     <DeleteOrdenModal />
     <CheckOrdenModal />
+    <PayOrdenModal />
 </template>
 
 <script setup>
 import DeleteOrdenModal from '../components/modalsOrden/DeleteOrden.vue'
 import CheckOrdenModal from '../components/modalsOrden/CheckOrden.vue'
+import PayOrdenModal from '../components/modalsOrden/PayOrden.vue'
 import { useOrdenes } from '../composables/useOrdenes'
 
 const {
@@ -243,10 +246,12 @@ const {
     nroPendientes,
     nroTerminados,
     timeOrden,
+    nroTotalPedientes,
     listOrdenes,
     manageOrden,
     selectOrden,
-    selectOrdenObject,
+    selectOrdenToCheck,
+    selectOrdenToPay,
 } = useOrdenes()
 
 listOrdenes()

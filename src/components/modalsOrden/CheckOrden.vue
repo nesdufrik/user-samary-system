@@ -51,11 +51,8 @@
                                     ) in ordenSelected.pedido"
                                 >
                                     <!-- loadin... -->
-                                    <div class="d-flex" v-if="actionState">
-                                        <span class="me-3">{{
-                                            item.cantidad
-                                        }}</span>
-                                        <span>{{ item.name }}</span>
+                                    <div class="d-flex mb-3" v-if="actionState">
+                                        <span>&nbsp;</span>
                                         <span
                                             role="status"
                                             class="ms-auto fw-bold text-success spinner-border spinner-border-sm"
@@ -109,73 +106,6 @@
             </div>
         </div>
     </div>
-    <!-- Message Create Orden -->
-    <!-- <div
-        class="modal fade"
-        id="checkOrdenModalMessage"
-        tabindex="-1"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        role="dialog"
-        aria-labelledby="modalTitleId"
-        aria-hidden="true"
-    >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <h2 class="modal-title fw-bold mb-4" id="modalTitleId">
-                        Editar Empleado
-                    </h2>
-                    <p v-if="errorApi.show" class="fs-6 fw-bold text-danger">
-                        {{ errorApi.message }}
-                    </p>
-
-                    <p
-                        v-else-if="actionState"
-                        class="fs-4 fw-bold text-success"
-                    >
-                        <span
-                            class="spinner-border spinner-border-md"
-                            role="status"
-                            aria-hidden="true"
-                        ></span
-                        ><br />
-                        Generando Orden...
-                    </p>
-                    <p v-else class="fs-4 fw-bold text-success">
-                        Se realizo la orden ¡Correctamente!
-                    </p>
-                </div>
-                <div class="modal-footer p-0">
-                    <button
-                        v-if="errorApi.show"
-                        type="button"
-                        class="btn-modal btn-modal-block btn-modal-danger col fw-bold"
-                        data-bs-target="#checkOrdenModal"
-                        data-bs-toggle="modal"
-                    >
-                        Regresar
-                    </button>
-                    <button
-                        v-else-if="actionState"
-                        type="button"
-                        class="btn-modal btn-modal-block btn-modal-disabled col disabled"
-                        data-bs-dismiss="modal"
-                    >
-                        Cerrar
-                    </button>
-                    <button
-                        v-else
-                        type="button"
-                        class="btn-modal btn-modal-block btn-modal-secondary col fw-bold"
-                        data-bs-dismiss="modal"
-                    >
-                        Cerrar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div> -->
 </template>
 
 <script setup>
