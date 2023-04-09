@@ -1,15 +1,16 @@
 import axios from 'axios'
 
-export const postOrden = async payload => {
+export const postOrden = async (payload, caja) => {
     return axios
-        .post(`/ordenes/id`, payload)
+        .post(`/ordenes/id?caja=${caja}`, payload)
         .then(res => res.data)
         .catch(err => err.response.data)
 }
 
-export const getOrdenes = async () => {
+export const getOrdenes = async caja => {
+    console.log(caja)
     return axios
-        .get(`/ordenes/id`)
+        .get(`/ordenes/id?caja=${caja}`)
         .then(res => res.data)
         .catch(err => err.response.data)
 }

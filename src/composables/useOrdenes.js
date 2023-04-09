@@ -2,6 +2,7 @@ import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { useCarritoStore } from '../stores/carritoStore'
 import { useOrdenesStore } from '../stores/ordenesStore'
+import { useCajaStore } from '../stores/cajaStore'
 import {
     deleteOrden,
     getOrdenes,
@@ -9,14 +10,16 @@ import {
     postOrden,
     putOrden,
 } from '../helpers/helpOrdenes'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 export const useOrdenes = () => {
     const router = useRouter()
 
     const carritoStore = useCarritoStore()
     const ordenesStore = useOrdenesStore()
+    const cajaStore = useCajaStore()
 
+    const { cajaActual } = storeToRefs(cajaStore)
     const { carritoOrden } = storeToRefs(carritoStore)
     const {
         ordenesArr,
@@ -29,7 +32,7 @@ export const useOrdenes = () => {
     const ordenar = async () => {
         errorApi.value.show = false
         actionState.value = true
-        const check = await postOrden(carritoOrden.value)
+        const check = await postOrden(carritoOrden.value, cajaActual.value._id)
         if (!check.success) {
             actionState.value = false
             errorApi.value = {
@@ -43,7 +46,7 @@ export const useOrdenes = () => {
     }
 
     const listOrdenes = async () => {
-        ordenesStore.addOrdenes(await getOrdenes())
+        ordenesStore.addOrdenes(await getOrdenes(cajaActual.value._id))
     }
 
     const manageOrden = ordenId => {

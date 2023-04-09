@@ -18,7 +18,7 @@ import { useCaja } from '../composables/useCaja'
 const { contentNavBar } = useNavBar()
 const { loadCaja } = useCaja()
 
-loadCaja()
+await loadCaja()
 contentNavBar()
 </script>
 
