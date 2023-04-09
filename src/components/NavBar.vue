@@ -1,6 +1,9 @@
 <template>
     <header
-        class="navbar navbar-expand-lg bd-navbar sticky-top bg-dark navbar-dark"
+        :class="[
+            'navbar navbar-expand-lg bd-navbar sticky-top bg-dark navbar-dark',
+            cajaActual.active ? '' : 'noactive',
+        ]"
     >
         <nav
             class="container-xl bd-gutter flex-wrap flex-lg-nowrap"
@@ -77,6 +80,7 @@
 
                     <ul class="navbar-nav flex-row flex-wrap ms-md-auto">
                         <li
+                            v-if="cajaActual.active"
                             class="nav-item col-6 col-lg-auto text-center"
                             v-for="elem in itemsNavBar"
                         >
@@ -159,10 +163,12 @@ import { RouterLink } from 'vue-router'
 import { useAuth } from '../composables/useAuth'
 import { useNavBar } from '../composables/useNavBar'
 import { useCarrito } from '../composables/useCarrito'
+import { useCaja } from '../composables/useCaja'
 
 const { userData, logout } = useAuth()
 const { itemsNavBar } = useNavBar()
 const { carritoOrden } = useCarrito()
+const { cajaActual } = useCaja()
 </script>
 
 <style lang="scss" scoped></style>

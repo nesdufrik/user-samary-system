@@ -104,6 +104,7 @@ router.beforeEach(async (to, from, next) => {
             store.userData = {
                 name: verify.data.fullName,
                 avatar: verify.data.avatar,
+                sucursal: verify.data.sucursal,
             }
         }
     }

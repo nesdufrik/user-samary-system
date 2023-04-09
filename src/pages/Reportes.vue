@@ -53,16 +53,9 @@
             </button>
         </div>
     </div>
-
-    <addEmpleadoModal />
-    <editEmpleadoModal />
-    <delEmpleadoModal />
 </template>
 
 <script setup>
-import addEmpleadoModal from '../components/modalsEmpleado/addEmpleado.vue'
-import editEmpleadoModal from '../components/modalsEmpleado/editEmpleado.vue'
-import delEmpleadoModal from '../components/modalsEmpleado/delEmpleado.vue'
 import { useRoute } from 'vue-router'
 import { useEmpleados } from '../composables/useEmpleados'
 

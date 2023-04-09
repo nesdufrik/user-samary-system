@@ -26,6 +26,7 @@ export const useAuth = () => {
         userData.value = {
             name: oauthResponse.data.fullName,
             avatar: oauthResponse.data.avatar,
+            sucursal: oauthResponse.data.sucursal,
         }
         islogIn.value = true
         router.push('/')
@@ -34,9 +35,7 @@ export const useAuth = () => {
 
     const logout = () => {
         islogIn.value = false
-        localStorage.removeItem('name')
         localStorage.removeItem('token')
-        localStorage.removeItem('avatar')
         const dirUrl = import.meta.env.VITE_REDIRECT_URL
         window.location.href = dirUrl
     }

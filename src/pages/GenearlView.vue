@@ -13,8 +13,12 @@
 <script setup>
 import NavBar from '../components/NavBar.vue'
 import { useNavBar } from '../composables/useNavBar'
+import { useCaja } from '../composables/useCaja'
 
 const { contentNavBar } = useNavBar()
+const { loadCaja } = useCaja()
+
+loadCaja()
 contentNavBar()
 </script>
 

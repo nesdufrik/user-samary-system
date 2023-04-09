@@ -35,6 +35,10 @@ body {
     --bs-dark-border-subtle: #adb5bd;
 }
 
+.noactive {
+    filter: grayscale(100%);
+}
+
 .bd-callout-right {
     border-right: 0.25rem solid var(--bd-callout-border, var(--bs-gray-300));
 }
