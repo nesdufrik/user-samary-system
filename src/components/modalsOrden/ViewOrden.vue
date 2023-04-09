@@ -2,7 +2,7 @@
     <!-- Realizar orden / Imprimir nota -->
     <div
         class="modal fade"
-        id="checkOrdenModal"
+        id="viewOrdenModal"
         tabindex="-1"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -22,6 +22,12 @@
                     >
                         <div class="text-start d-flex flex-column fst-italic">
                             <div class="mb-3">
+                                <div class="fs-5">
+                                    <span>Codigo: </span>
+                                    <span class="fw-bold">{{
+                                        ordenSelected._id
+                                    }}</span>
+                                </div>
                                 <div
                                     class="fs-5"
                                     v-if="ordenSelected.cliente.name"
@@ -50,43 +56,15 @@
                                         item, index
                                     ) in ordenSelected.pedido"
                                 >
-                                    <!-- loadin... -->
-                                    <div class="d-flex mb-3" v-if="actionState">
-                                        <span>&nbsp;</span>
-                                        <span
-                                            role="status"
-                                            class="ms-auto fw-bold text-success spinner-border spinner-border-sm"
-                                        ></span>
-                                    </div>
-                                    <!-- item atendido -->
-                                    <div
-                                        class="d-flex mb-3"
-                                        v-else-if="item.pendiente === 0"
-                                    >
-                                        <span
-                                            class="me-3 text-decoration-line-through"
-                                            >{{ item.cantidad }}</span
-                                        >
-                                        <span
-                                            class="text-decoration-line-through"
-                                            >{{ item.name }}</span
-                                        >
-                                        <span
-                                            class="ms-auto fw-bold material-icons-round text-success"
-                                            >check_circle</span
-                                        >
-                                    </div>
                                     <!-- item pendiente -->
-                                    <div class="d-flex mb-3" v-else>
+                                    <div class="d-flex mb-3">
                                         <span class="me-3">{{
-                                            item.pendiente
+                                            item.cantidad
                                         }}</span>
                                         <span>{{ item.name }}</span>
                                         <span
-                                            role="button"
-                                            class="ms-auto fw-bold material-icons-round text-success"
-                                            @click="checkOrdenUpdate(index)"
-                                            >check_circle_outline</span
+                                            class="ms-auto fw-bold text-dark"
+                                            >{{ item.importe }}</span
                                         >
                                     </div>
                                 </template>
@@ -110,8 +88,7 @@
 
 <script setup>
 import { useOrdenes } from '../../composables/useOrdenes'
-
-const { ordenSelected, actionState, errorApi, checkOrdenUpdate } = useOrdenes()
+const { ordenSelected } = useOrdenes()
 </script>
 
 <style scoped>

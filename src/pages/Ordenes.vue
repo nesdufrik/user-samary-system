@@ -79,11 +79,17 @@
                                 >check_circle_outline</span
                             >
                             <span
-                                class="tarjeta__link text-secondary material-icons-round me-md-1"
+                                class="tarjeta__link text-dark material-icons-round me-md-1"
                                 @click="manageOrden(orden._id)"
                                 >edit</span
                             >
                             <span
+                                v-if="!puedoBorrar(orden.pedido)"
+                                class="tarjeta__link text-secondary material-icons-round"
+                                >delete_outline</span
+                            >
+                            <span
+                                v-else
                                 class="tarjeta__link text-danger material-icons-round"
                                 data-bs-target="#deleteOrdenModal"
                                 data-bs-toggle="modal"
@@ -142,12 +148,14 @@
                             </div>
                         </td>
                         <td class="align-middle fw-bold">
-                            <div class="d-flex flex-wrap">
+                            <div
+                                class="d-flex justify-content-between flex-wrap"
+                            >
                                 <div>
                                     <span class="text-secondary">Mesa: </span
                                     >{{ orden.mesa }}
                                 </div>
-                                <div class="ms-auto">
+                                <div>
                                     <span class="text-secondary">Total: </span
                                     >{{ orden.total }} Bs.
                                 </div>
@@ -162,7 +170,14 @@
                                 >payment</span
                             >
                             <span
-                                class="tarjeta__link text-secondary material-icons-round"
+                                class="tarjeta__link text-dark material-icons-round me-md-2"
+                                @click="selectOrdenToPay(orden._id)"
+                                data-bs-target="#printOrdenModal"
+                                data-bs-toggle="modal"
+                                >print</span
+                            >
+                            <span
+                                class="tarjeta__link text-dark material-icons-round"
                                 @click="manageOrden(orden._id)"
                                 >add_circle_outline</span
                             >
@@ -200,27 +215,44 @@
         class="bg-light rounded-3 table-responsive p-2 accordion-collapse collapse"
     >
         <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th colspan="3" class="align-middle fs-4">Ordenes</th>
-                    <th colspan="2" class="align-middle">Precio Bs.</th>
-                </tr>
-            </thead>
             <tbody>
                 <template v-for="orden in ordenesArr" :key="orden._id">
                     <tr v-if="orden.estado === 'terminado'">
-                        <td class="align-middle">{{ orden.empleado }}</td>
-                        <td class="align-middle">{{ orden.mesa }}</td>
-                        <td class="align-middle">{{ orden.tipo }}</td>
-                        <td class="align-middle">{{ orden.total }}</td>
+                        <td class="align-middle">
+                            <div class="d-flex align-items-center">
+                                <img
+                                    :src="orden.empleado.avatar"
+                                    width="30"
+                                    height="30"
+                                    :alt="'avatar-' + orden.empleado.fullName"
+                                    class="me-2"
+                                />
+                                <span class="fw-bold">{{
+                                    orden.empleado.fullName
+                                }}</span>
+                            </div>
+                        </td>
+                        <td class="align-middle fw-bold">
+                            <div
+                                class="d-flex justify-content-between flex-wrap"
+                            >
+                                <div>
+                                    <span class="text-secondary">Metodo: </span
+                                    >{{ orden.payMetodo }}
+                                </div>
+                                <div>
+                                    <span class="text-secondary">Total: </span
+                                    >{{ orden.total }}
+                                </div>
+                            </div>
+                        </td>
                         <td class="align-middle text-end">
                             <span
-                                class="tarjeta__link text-secondary material-icons-round me-md-2"
-                                >edit</span
-                            >
-                            <span
-                                class="tarjeta__link text-danger material-icons-round"
-                                >delete</span
+                                class="tarjeta__link text-secondary material-icons-round"
+                                @click="selectOrdenToPay(orden._id)"
+                                data-bs-target="#viewOrdenModal"
+                                data-bs-toggle="modal"
+                                >search</span
                             >
                         </td>
                     </tr>
@@ -232,12 +264,16 @@
     <DeleteOrdenModal />
     <CheckOrdenModal />
     <PayOrdenModal />
+    <PrintOrdenModal />
+    <ViewOrdenModal />
 </template>
 
 <script setup>
 import DeleteOrdenModal from '../components/modalsOrden/DeleteOrden.vue'
 import CheckOrdenModal from '../components/modalsOrden/CheckOrden.vue'
 import PayOrdenModal from '../components/modalsOrden/PayOrden.vue'
+import PrintOrdenModal from '../components/modalsOrden/PrintOrden.vue'
+import ViewOrdenModal from '../components/modalsOrden/ViewOrden.vue'
 import { useOrdenes } from '../composables/useOrdenes'
 
 const {
@@ -247,6 +283,7 @@ const {
     nroTerminados,
     timeOrden,
     nroTotalPedientes,
+    puedoBorrar,
     listOrdenes,
     manageOrden,
     selectOrden,

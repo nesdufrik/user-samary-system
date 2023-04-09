@@ -16,12 +16,12 @@
         >
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="text-center" id="ordenDataToPrint">
+                    <div class="text-center">
                         <h2
                             class="modal-title fw-bold mb-4"
                             id="exampleModalLabel"
                         >
-                            Orden
+                            Pago de Orden
                         </h2>
                         <div
                             id="ordenDataClient"
@@ -181,7 +181,9 @@
                     <button
                         type="button"
                         class="btn-modal btn-modal-right btn-modal-primary col fw-bold"
-                        data-bs-dismiss="modal"
+                        @click="pagarOrden"
+                        data-bs-target="#payOrdenModalMessage"
+                        data-bs-toggle="modal"
                     >
                         Pagar
                     </button>
@@ -190,7 +192,7 @@
         </div>
     </div>
     <!-- Message Create Orden -->
-    <!-- <div
+    <div
         class="modal fade"
         id="payOrdenModalMessage"
         tabindex="-1"
@@ -204,7 +206,7 @@
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <h2 class="modal-title fw-bold mb-4" id="modalTitleId">
-                        Editar Empleado
+                        Pagar Orden
                     </h2>
                     <p v-if="errorApi.show" class="fs-6 fw-bold text-danger">
                         {{ errorApi.message }}
@@ -220,7 +222,7 @@
                             aria-hidden="true"
                         ></span
                         ><br />
-                        Generando Orden...
+                        Pago en proceso...
                     </p>
                     <p v-else class="fs-4 fw-bold text-success">
                         Se realizo la orden ¡Correctamente!
@@ -255,13 +257,13 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 </template>
 
 <script setup>
 import { useOrdenes } from '../../composables/useOrdenes'
 
-const { ordenSelected, actionState, errorApi, checkOrdenUpdate } = useOrdenes()
+const { ordenSelected, actionState, errorApi, pagarOrden } = useOrdenes()
 </script>
 
 <style scoped>

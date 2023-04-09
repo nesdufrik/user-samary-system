@@ -21,6 +21,13 @@ export const putOrden = async (ordenId, payload) => {
         .catch(err => err.response.data)
 }
 
+export const payOrden = async (ordenId, payload) => {
+    return axios
+        .put(`/ordenes/pagar/${ordenId}`, payload)
+        .then(res => res.data)
+        .catch(err => err.response.data)
+}
+
 export const deleteOrden = async ordenId => {
     return axios
         .delete(`/ordenes/id/${ordenId}`)

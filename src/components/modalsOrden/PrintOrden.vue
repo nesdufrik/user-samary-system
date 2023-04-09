@@ -2,7 +2,7 @@
     <!-- Realizar orden / Imprimir nota -->
     <div
         class="modal fade"
-        id="checkOrdenModal"
+        id="printOrdenModal"
         tabindex="-1"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
@@ -12,7 +12,7 @@
     >
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-body text-center">
+                <div class="modal-body text-center" id="ordenDataToPrint">
                     <h2 class="modal-title fw-bold mb-4" id="exampleModalLabel">
                         Orden
                     </h2>
@@ -50,43 +50,15 @@
                                         item, index
                                     ) in ordenSelected.pedido"
                                 >
-                                    <!-- loadin... -->
-                                    <div class="d-flex mb-3" v-if="actionState">
-                                        <span>&nbsp;</span>
-                                        <span
-                                            role="status"
-                                            class="ms-auto fw-bold text-success spinner-border spinner-border-sm"
-                                        ></span>
-                                    </div>
-                                    <!-- item atendido -->
-                                    <div
-                                        class="d-flex mb-3"
-                                        v-else-if="item.pendiente === 0"
-                                    >
-                                        <span
-                                            class="me-3 text-decoration-line-through"
-                                            >{{ item.cantidad }}</span
-                                        >
-                                        <span
-                                            class="text-decoration-line-through"
-                                            >{{ item.name }}</span
-                                        >
-                                        <span
-                                            class="ms-auto fw-bold material-icons-round text-success"
-                                            >check_circle</span
-                                        >
-                                    </div>
                                     <!-- item pendiente -->
-                                    <div class="d-flex mb-3" v-else>
+                                    <div class="d-flex mb-3">
                                         <span class="me-3">{{
-                                            item.pendiente
+                                            item.cantidad
                                         }}</span>
                                         <span>{{ item.name }}</span>
                                         <span
-                                            role="button"
-                                            class="ms-auto fw-bold material-icons-round text-success"
-                                            @click="checkOrdenUpdate(index)"
-                                            >check_circle_outline</span
+                                            class="ms-auto fw-bold text-dark"
+                                            >{{ item.importe }}</span
                                         >
                                     </div>
                                 </template>
@@ -97,10 +69,17 @@
                 <div class="modal-footer p-0">
                     <button
                         type="button"
-                        class="btn-modal btn-modal-block btn-modal-secondary col fw-bold"
+                        class="btn-modal btn-modal-left btn-modal-secondary col fw-bold"
                         data-bs-dismiss="modal"
                     >
                         Cerrar
+                    </button>
+                    <button
+                        type="button"
+                        class="btn-modal btn-modal-right btn-modal-primary col fw-bold"
+                        @click="imprimir"
+                    >
+                        <span>Imprimir Orden</span>
                     </button>
                 </div>
             </div>
@@ -109,9 +88,23 @@
 </template>
 
 <script setup>
+import { getCurrentInstance } from 'vue'
 import { useOrdenes } from '../../composables/useOrdenes'
+const instance = getCurrentInstance()
+const { ordenSelected } = useOrdenes()
 
-const { ordenSelected, actionState, errorApi, checkOrdenUpdate } = useOrdenes()
+const imprimir = () => {
+    instance.appContext.config.globalProperties.$htmlToPaper(
+        'ordenDataToPrint',
+        {
+            name: '_blank',
+            specs: ['fullscreen=no', 'titlebar=no', 'scrollbars=no'],
+            styles: [
+                'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css',
+            ],
+        }
+    )
+}
 </script>
 
 <style scoped>

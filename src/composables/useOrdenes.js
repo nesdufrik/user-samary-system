@@ -5,6 +5,7 @@ import { useOrdenesStore } from '../stores/ordenesStore'
 import {
     deleteOrden,
     getOrdenes,
+    payOrden,
     postOrden,
     putOrden,
 } from '../helpers/helpOrdenes'
@@ -141,6 +142,35 @@ export const useOrdenes = () => {
         actionState.value = false
     }
 
+    const pagarOrden = async () => {
+        errorApi.value.show = false
+        actionState.value = true
+
+        if (!ordenSelected.value.payMetodo) {
+            actionState.value = false
+            errorApi.value = {
+                show: true,
+                message: 'Debe elegir un metodo de pago',
+            }
+            return
+        }
+
+        const response = await payOrden(
+            ordenSelected.value._id,
+            ordenSelected.value
+        )
+        if (!response.success) {
+            actionState.value = false
+            errorApi.value = {
+                show: true,
+                message: response.data.message,
+            }
+            return
+        }
+        ordenesStore.updateOrden(response)
+        actionState.value = false
+    }
+
     const borrar = async () => {
         errorApi.value.show = false
         actionState.value = true
@@ -169,6 +199,9 @@ export const useOrdenes = () => {
     const nroTotalPedientes = computed(() => {
         return total => totalPendiente(total)
     })
+    const puedoBorrar = computed(() => {
+        return res => sePuedeBorrar(res)
+    })
 
     function totalEstado(estado) {
         const total = ordenesArr.value.filter(el => el.estado === estado)
@@ -188,6 +221,14 @@ export const useOrdenes = () => {
         const total = array.reduce((acc, el) => acc + (el.pendiente ? 1 : 0), 0)
         return total
     }
+    function sePuedeBorrar(array) {
+        const qty = array.reduce((acc, el) => acc + (el.cantidad || 0), 0)
+        const pen = array.reduce((acc, el) => acc + (el.pendiente || 0), 0)
+        if (qty !== pen) {
+            return false
+        }
+        return true
+    }
 
     return {
         ordenesArr,
@@ -200,10 +241,12 @@ export const useOrdenes = () => {
         nroTerminados,
         timeOrden,
         nroTotalPedientes,
+        puedoBorrar,
 
         ordenar,
         borrar,
         actualizar,
+        pagarOrden,
         checkOrdenUpdate,
         listOrdenes,
         manageOrden,
