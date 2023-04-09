@@ -46,9 +46,7 @@
                 <div>
                     <h4 class="fw-bold">
                         Caja:
-                        <span class="text-secondary fs-5">{{
-                            cajaActual._id
-                        }}</span>
+                        <span class="text-success fs-3">Activa</span>
                     </h4>
                     <p>
                         Esta caja te permitirá almacenar y administrar tu
