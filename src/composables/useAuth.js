@@ -1,6 +1,6 @@
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
-import { oauthJwt } from '../helpers/helpAuth'
+import { checkJwt, oauthJwt } from '../helpers/helpAuth'
 import { useAuthStore } from '../stores/authStore'
 
 export const useAuth = () => {
@@ -40,6 +40,22 @@ export const useAuth = () => {
         window.location.href = dirUrl
     }
 
+    const verify = async () => {
+        const res = await checkJwt(localStorage.getItem('token'))
+        if (!res.success) {
+            window.location.href = `${
+                import.meta.env.VITE_REDIRECT_URL
+            }?show=true&message=${res.data.message}`
+            return
+        }
+        islogIn.value = true
+        userData.value = {
+            name: res.data.fullName,
+            avatar: res.data.avatar,
+            sucursal: res.data.sucursal,
+        }
+    }
+
     return {
         //! propiedades
         islogIn,
@@ -51,5 +67,6 @@ export const useAuth = () => {
         //! metodos
         logout,
         oauthLogin,
+        verify,
     }
 }

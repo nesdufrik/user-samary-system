@@ -14,11 +14,15 @@
 import NavBar from '../components/NavBar.vue'
 import { useNavBar } from '../composables/useNavBar'
 import { useCaja } from '../composables/useCaja'
+import { useAuth } from '../composables/useAuth'
 
+const { verify } = useAuth()
 const { contentNavBar } = useNavBar()
 const { loadCaja } = useCaja()
 
+await verify()
 await loadCaja()
+
 contentNavBar()
 </script>
 

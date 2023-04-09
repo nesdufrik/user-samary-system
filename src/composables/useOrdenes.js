@@ -10,7 +10,7 @@ import {
     postOrden,
     putOrden,
 } from '../helpers/helpOrdenes'
-import { computed, onMounted } from 'vue'
+import { computed } from 'vue'
 
 export const useOrdenes = () => {
     const router = useRouter()

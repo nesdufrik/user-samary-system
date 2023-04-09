@@ -8,7 +8,6 @@ export const postOrden = async (payload, caja) => {
 }
 
 export const getOrdenes = async caja => {
-    console.log(caja)
     return axios
         .get(`/ordenes/id?caja=${caja}`)
         .then(res => res.data)

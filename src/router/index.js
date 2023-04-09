@@ -92,7 +92,6 @@ router.beforeEach(async (to, from, next) => {
         }
         if (!store.islogIn) {
             const verify = await store.verifyJwt()
-            store.appLoading = false
 
             if (!verify.success) {
                 window.location.href = `${
