@@ -1,9 +1,6 @@
 <template>
     <header
-        :class="[
-            'navbar navbar-expand-lg bd-navbar sticky-top bg-dark navbar-dark',
-            cajaActual.active ? '' : 'noactive',
-        ]"
+        class="navbar navbar-expand-lg bd-navbar sticky-top bg-dark navbar-dark"
     >
         <nav
             class="container-xl bd-gutter flex-wrap flex-lg-nowrap"
@@ -32,7 +29,10 @@
                 </div>
             </div>
             <RouterLink
-                class="p-lg-3 my-2 my-lg-0 me-lg-auto text-white text-decoration-none"
+                :class="[
+                    'p-lg-3 my-2 my-lg-0 me-lg-auto text-white text-decoration-none',
+                    cajaActual.active ? '' : 'noactive',
+                ]"
                 :to="`/`"
                 aria-label="Home"
             >
@@ -112,7 +112,10 @@
                                     alt="avatar"
                                     width="55"
                                     height="55"
-                                    class="rounded-circle"
+                                    :class="[
+                                        'rounded-circle',
+                                        cajaActual.active ? '' : 'noactive',
+                                    ]"
                                 />
                             </a>
                             <span class="d-lg-none text-muted">{{
@@ -171,4 +174,8 @@ const { carritoOrden } = useCarrito()
 const { cajaActual } = useCaja()
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.noactive {
+    filter: grayscale(100%);
+}
+</style>

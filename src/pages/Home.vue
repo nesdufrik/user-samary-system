@@ -79,4 +79,8 @@ const { cajaActual, abrirCaja } = useCaja()
 const { userData } = useAuth()
 </script>
 
-<style scoped></style>
+<style scoped>
+.noactive {
+    filter: grayscale(100%);
+}
+</style>
