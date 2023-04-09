@@ -19,6 +19,7 @@ export const useAuthStore = defineStore('auth', {
             this.router.push(`/`)
         },
         async verifyJwt() {
+            this.appLoading = true
             axios.defaults.headers.common[
                 'Authorization'
             ] = `Bearer ${localStorage.getItem('token')}`
