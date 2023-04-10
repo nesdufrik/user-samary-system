@@ -7,6 +7,13 @@ export const getCaja = async () => {
         .catch(err => err.response.data)
 }
 
+export const getAllCajas = async () => {
+    return await axios
+        .get(`/cajas/all`)
+        .then(res => res.data)
+        .catch(err => err.response.data)
+}
+
 export const postCaja = async payload => {
     return await axios
         .post(`/cajas`, payload)

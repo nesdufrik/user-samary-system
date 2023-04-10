@@ -26,15 +26,16 @@
                 <div class="ms-auto text-end">
                     <h2 class="fw-bold">¡Importante!</h2>
                     <p>
-                        Antes de utilizar el sistema, es necesario crear una
+                        Antes de utilizar el sistema, es necesario abrir una
                         <span class="fw-bold">caja de registro.</span>
                     </p>
                     <button
                         type="button"
                         class="btn btn-success"
-                        @click="abrirCaja"
+                        data-bs-target="#abrirCajaModal"
+                        data-bs-toggle="modal"
                     >
-                        Crear Caja
+                        Abrir Caja
                     </button>
                 </div>
             </div>
@@ -68,9 +69,12 @@
             </div>
         </div>
     </div>
+
+    <AbrirCajaModal />
 </template>
 
 <script setup>
+import AbrirCajaModal from '../components/modalsCaja/AbrirCaja.vue'
 import topItems from '../components/caja/topItems.vue'
 import { useAuth } from '../composables/useAuth'
 import { useCaja } from '../composables/useCaja'

@@ -1,12 +1,27 @@
 import { storeToRefs } from 'pinia'
 import { useCajaStore } from '../stores/cajaStore'
-import { getCaja, postCaja, putCaja } from '../helpers/helpCaja'
+import { getAllCajas, getCaja, postCaja, putCaja } from '../helpers/helpCaja'
+import { getOrdenesTerminadas } from '../helpers/helpOrdenes'
 import { computed } from 'vue'
 
 export const useCaja = () => {
     const cajaStore = useCajaStore()
-    const { cajaArr, cajaActual, actionState, errorApi } =
-        storeToRefs(cajaStore)
+
+    const {
+        cajasArr,
+        cajaActual,
+        cajaSelected,
+        cajaOrdenesArr,
+        actionState,
+        errorApi,
+    } = storeToRefs(cajaStore)
+
+    // List of operations
+
+    const listAllCajas = async () => {
+        const res = await getAllCajas()
+        cajaStore.addCajas(res)
+    }
 
     const loadCaja = async () => {
         const res = await getCaja()
@@ -17,6 +32,11 @@ export const useCaja = () => {
             return
         }
         cajaStore.manageCaja(res)
+    }
+
+    const loadOrdenesOfCaja = async cajaId => {
+        const res = await getOrdenesTerminadas(cajaId)
+        cajaStore.addOrdenesCaja(res)
     }
 
     const abrirCaja = async () => {
@@ -57,13 +77,38 @@ export const useCaja = () => {
         actionState.value = false
     }
 
+    const selectCaja = async caja => {
+        cajaSelected.value = {
+            ...caja,
+        }
+        await loadOrdenesOfCaja(caja._id)
+    }
+
+    const dateFormated = computed(() => {
+        return fecha => dateConvert(fecha)
+    })
+
+    function dateConvert(fecha) {
+        const isoDate = new Date(fecha)
+        const localDate = isoDate.toLocaleString()
+        return localDate
+    }
+
     return {
+        cajasArr,
+        cajaOrdenesArr,
+        cajaSelected,
         cajaActual,
         actionState,
         errorApi,
 
+        dateFormated,
+
+        loadOrdenesOfCaja,
         loadCaja,
         abrirCaja,
         cerrarCaja,
+        listAllCajas,
+        selectCaja,
     }
 }

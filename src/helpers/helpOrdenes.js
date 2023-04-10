@@ -14,6 +14,13 @@ export const getOrdenes = async caja => {
         .catch(err => err.response.data)
 }
 
+export const getOrdenesTerminadas = async caja => {
+    return axios
+        .get(`/ordenes/terminadas?caja=${caja}`)
+        .then(res => res.data)
+        .catch(err => err.response.data)
+}
+
 export const putOrden = async (ordenId, payload) => {
     return axios
         .put(`/ordenes/id/${ordenId}`, payload)

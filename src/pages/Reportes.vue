@@ -1,70 +1,220 @@
 <template>
+    <!-- #Section Pendientes -->
     <div
+        v-if="cajaSelected.active"
         class="tarjeta rounded-2 bd-callout bd-callout-left bd-callout-secondary p-2"
     >
         <div>
-            <h2 class="fw-bold m-0">Usuarios</h2>
+            <h2 class="fw-bold m-0 d-flex align-items-center">
+                Caja:
+                <span class="ms-2 text-success">Activa</span>
+            </h2>
+        </div>
+        <button
+            class="tarjeta__button link-danger align-middle material-icons-round tarjeta__button--edit2"
+            data-bs-target="#cerrarCajaModal"
+            data-bs-toggle="modal"
+        >
+            archive
+        </button>
+        <button
+            class="tarjeta__button link-secondary align-middle material-icons-round tarjeta__button--edit"
+            @click="imprimir"
+        >
+            print
+        </button>
+        <button
+            class="tarjeta__button link-secondary align-middle material-icons-round"
+            data-bs-toggle="collapse"
+            data-bs-target="#reporteDiaParaImprimir"
+            aria-expanded="true"
+            aria-controls="reporteDiaParaImprimir"
+        >
+            visibility
+        </button>
+    </div>
+    <div
+        v-else
+        class="tarjeta rounded-2 bd-callout bd-callout-left bd-callout-secondary p-2"
+    >
+        <div>
+            <h2 class="fw-bold m-0 d-flex align-items-center">
+                Caja:
+                <span class="ms-2 text-danger">Desactivada</span>
+            </h2>
+        </div>
+        <button
+            class="tarjeta__button link-secondary align-middle material-icons-round tarjeta__button--edit"
+        >
+            print
+        </button>
+        <button
+            class="tarjeta__button link-secondary align-middle material-icons-round"
+            data-bs-toggle="collapse"
+            data-bs-target="#reporteDiaParaImprimir"
+            aria-expanded="true"
+            aria-controls="reporteDiaParaImprimir"
+        >
+            visibility
+        </button>
+    </div>
+
+    <!-- ##Table Ordenes Pendientes -->
+    <div
+        id="reporteDiaParaImprimir"
+        class="bg-light rounded-3 p-2 accordion-collapse collapse show"
+    >
+        <div class="p-3">
+            <div class="text-center">
+                <h2 class="fw-bold">Reporte del Día</h2>
+            </div>
+            <div class="text-start fs-4 fw-bold">
+                <span>Fecha: </span
+                ><span class="text-secondary">{{
+                    dateFormated(cajaSelected.createdAt)
+                }}</span>
+            </div>
+            <div class="text-start fw-bold">
+                <span>Codigo Caja: </span
+                ><span class="text-secondary">{{ cajaSelected._id }}</span>
+            </div>
+            <div class="mt-4 table-responsive">
+                <table class="table table-hover">
+                    <tbody>
+                        <template
+                            v-for="orden in cajaOrdenesArr"
+                            :key="orden._id"
+                        >
+                            <tr>
+                                <td class="align-middle">
+                                    <div class="d-flex flex-column">
+                                        <div>
+                                            <span class="text-secondary"
+                                                >Code: </span
+                                            >{{ orden._id }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle">
+                                    <div
+                                        class="d-flex justify-content-between flex-wrap"
+                                    >
+                                        <div class="me-3">
+                                            <span class="text-secondary"
+                                                >Metodo de pago: </span
+                                            >{{ orden.payMetodo }}
+                                        </div>
+                                        <div class="me-3">
+                                            <span class="text-secondary"
+                                                >Hora: </span
+                                            >{{ dateFormated(orden.updatedAt) }}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="align-middle text-end">
+                                    <span class="fw-bold"
+                                        >{{ orden.total }} Bs.</span
+                                    >
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- #Cajas Anteriores -->
+    <div
+        class="tarjeta rounded-2 bd-callout bd-callout-left bd-callout-secondary p-2 d-flex justify-content-between align-items-center"
+    >
+        <div>
+            <h2 class="fw-bold m-0 d-flex align-items-center">
+                Cajas Anteriores
+            </h2>
         </div>
         <button
             class="tarjeta__button link-secondary align-middle material-icons-round"
-            data-bs-target="#createEmpleado"
-            data-bs-toggle="modal"
-            @click="defaulAvatar"
+            data-bs-toggle="collapse"
+            data-bs-target="#viewOrdenesAtendidas"
+            aria-expanded="false"
+            aria-controls="viewOrdenesAtendidas"
         >
-            note_add
+            visibility
         </button>
     </div>
-    <div class="row row-cols-1 row-cols-md-3 row-cols-xl-4 g-2">
-        <div
-            v-for="empleado in empleadosArr"
-            :key="empleado._id"
-            class="col tarjeta"
-        >
-            <div class="user-card h-100">
-                <div class="user-image">
-                    <img
-                        :src="empleado.avatar"
-                        alt="Imagen de perfil de usuario"
-                    />
-                </div>
-                <div class="user-description">
-                    <h2 class="user-name">
-                        {{ empleado.fullName }}
-                    </h2>
-                    <p class="user-job">{{ empleado.cargo }}</p>
-                    <p class="user-username">{{ empleado.email }}</p>
-                </div>
-            </div>
-            <button
-                class="tarjeta__button tarjeta__button--edit tarjeta__button--delete link-danger material-icons-round"
-                data-bs-target="#delEmpleado"
-                data-bs-toggle="modal"
-                @click="editarEmpleado(empleado._id)"
-            >
-                delete
-            </button>
-            <button
-                class="tarjeta__button link-secondary material-icons-round"
-                data-bs-target="#editEmpleado"
-                data-bs-toggle="modal"
-                @click="editarEmpleado(empleado._id)"
-            >
-                edit
-            </button>
-        </div>
+    <!-- ##Table Ordenes Atendidas -->
+    <div
+        id="viewOrdenesAtendidas"
+        class="bg-light rounded-3 table-responsive p-2 accordion-collapse collapse"
+    >
+        <table class="table table-hover">
+            <tbody>
+                <template v-for="caja in cajasArr" :key="caja._id">
+                    <tr>
+                        <td class="align-middle fw-bold">
+                            <span class="text-secondary">Code: </span
+                            >{{ caja._id }}
+                        </td>
+                        <td class="align-middle fw-bold">
+                            <span class="text-secondary">Creada el: </span
+                            >{{ dateFormated(caja.createdAt) }}
+                        </td>
+                        <td class="align-middle fw-bold">
+                            <div v-if="!caja.active">
+                                <span class="text-secondary">Cerrada el: </span
+                                >{{ dateFormated(caja.updatedAt) }}
+                            </div>
+                            <div v-else>
+                                <span class="text-success fs-5">Activa</span>
+                            </div>
+                        </td>
+                        <td class="align-middle text-end">
+                            <span
+                                class="tarjeta__link text-dark material-icons-round"
+                                @click="selectCaja(caja)"
+                                >upload_file</span
+                            >
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
     </div>
+
+    <CerrarCajaModal />
 </template>
 
 <script setup>
-import { useRoute } from 'vue-router'
-import { useEmpleados } from '../composables/useEmpleados'
+import CerrarCajaModal from '../components/modalsCaja/CerrarCaja.vue'
+import { useCaja } from '../composables/useCaja'
+import { getCurrentInstance } from 'vue'
 
-const { empleadosArr, listEmpleados, editarEmpleado, defaulAvatar } =
-    useEmpleados()
+const {
+    cajasArr,
+    cajaSelected,
+    dateFormated,
+    cajaOrdenesArr,
+    listAllCajas,
+    loadOrdenesOfCaja,
+    selectCaja,
+} = useCaja()
 
-const route = useRoute()
+const instance = getCurrentInstance()
+const imprimir = () => {
+    instance.appContext.config.globalProperties.$htmlToPaper(
+        'reporteDiaParaImprimir',
+        {
+            name: '_blank',
+            specs: ['fullscreen=no', 'titlebar=no', 'scrollbars=no'],
+            styles: [
+                'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css',
+            ],
+        }
+    )
+}
 
-listEmpleados(route.params.id)
+listAllCajas()
+loadOrdenesOfCaja(cajaSelected.value._id)
 </script>
 <style scoped>
 .tarjeta {
@@ -90,81 +240,10 @@ listEmpleados(route.params.id)
 }
 
 .tarjeta__button--edit {
-    margin-top: 1.7rem;
+    margin-right: 2rem;
 }
 
-.user-card {
-    background-color: #f8f9fa;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-}
-
-.user-image {
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    margin-bottom: 15px;
-}
-
-.user-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.user-description {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-
-.user-name {
-    margin: 0;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.user-job,
-.user-username {
-    margin: 2px 0 0 0;
-    font-size: 16px;
-    color: #666;
-}
-
-@media only screen and (max-width: 767px) {
-    .user-card {
-        justify-content: flex-start;
-        text-align: left;
-        flex-direction: row;
-    }
-
-    .user-image {
-        width: 80px;
-        height: 80px;
-        margin-right: 8px;
-        margin-bottom: 0;
-    }
-
-    .user-description {
-        text-align: left;
-        margin-right: 10px;
-        max-width: calc(100% - 120px);
-        flex-wrap: wrap;
-    }
-
-    .user-name {
-        font-size: 20px;
-    }
-
-    .user-job,
-    .user-username {
-        font-size: 16px;
-        margin: 0;
-    }
+.tarjeta__button--edit2 {
+    margin-right: 4rem;
 }
 </style>
