@@ -233,6 +233,41 @@ export const useOrdenes = () => {
         return true
     }
 
+    //Analiticas
+    const totalBeneficios = computed(() => funTotalBeneficios())
+    const totalOrdenes = computed(() => funTotalOrdenes())
+    const totalCantidad = computed(() => funTotalCantidad())
+
+    function funTotalBeneficios() {
+        const finalizado = ordenesArr.value.filter(
+            el => el.estado === 'terminado'
+        )
+        const total = finalizado.reduce((acc, el) => acc + (el.total || 0), 0)
+        return total
+    }
+    function funTotalOrdenes() {
+        const finalizado = ordenesArr.value.filter(
+            el => el.estado === 'terminado'
+        )
+        const total = finalizado.length
+        return total
+    }
+    function funTotalCantidad() {
+        const finalizado = ordenesArr.value.filter(
+            el => el.estado === 'terminado'
+        )
+        const total = finalizado.reduce((total, orden) => {
+            return (
+                total +
+                orden.pedido.reduce((subtotal, item) => {
+                    return subtotal + item.cantidad
+                }, 0)
+            )
+        }, 0)
+
+        return total
+    }
+
     return {
         ordenesArr,
         ordenSelected,
@@ -245,6 +280,11 @@ export const useOrdenes = () => {
         timeOrden,
         nroTotalPedientes,
         puedoBorrar,
+
+        //analiticas
+        totalBeneficios,
+        totalOrdenes,
+        totalCantidad,
 
         ordenar,
         borrar,
