@@ -56,50 +56,6 @@
                     (carritoOrden.total = subTotalPrecio - cuponDesc)
                 }}</span>
             </div>
-            <div id="inputsClientesData" class="row g-1">
-                <div class="input-group input-group-sm" v-if="actionState">
-                    <div class="form-floating">
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="clienteInputNit"
-                            disabled
-                        />
-                        <label for="clienteInputNit">Buscando...</label>
-                    </div>
-                    <button role="button" class="input-group-text">
-                        <div class="spinner-grow text-success" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                    </button>
-                </div>
-                <div class="input-group input-group-sm" v-else>
-                    <div class="form-floating">
-                        <input
-                            v-model="carritoOrden.cliente.nit"
-                            type="text"
-                            class="form-control"
-                            id="clienteInputNit"
-                        />
-                        <label for="clienteInputNit">Numero de NIT</label>
-                    </div>
-                    <button
-                        role="button"
-                        class="btn btn-success material-icons-round input-group-text fs-2 text-light"
-                    >
-                        search
-                    </button>
-                </div>
-                <div class="form-floating">
-                    <input
-                        v-model="carritoOrden.cliente.nit"
-                        type="text"
-                        class="form-control"
-                        id="clienteInputName"
-                    />
-                    <label for="clienteInputName">Nombre Completo</label>
-                </div>
-            </div>
         </div>
         <div id="footerPosCuentaButtons" class="p-0">
             <button

@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="col" v-else>
+        <div id="cajaOpenMessage" class="col" v-else>
             <div
                 class="rounded-2 bd-callout bd-callout-left bd-callout-secondary p-3 mt-0 mb-0 h-100 d-flex align-items-center"
             >
@@ -68,6 +68,11 @@
                 <topItems />
             </div>
         </div>
+        <!-- <div>
+            <button type="button" class="btn btn-primary" @click="printPage">
+                Imprimir
+            </button>
+        </div> -->
     </div>
 
     <AbrirCajaModal />
@@ -79,8 +84,45 @@ import topItems from '../components/caja/topItems.vue'
 import { useAuth } from '../composables/useAuth'
 import { useCaja } from '../composables/useCaja'
 
-const { cajaActual, abrirCaja } = useCaja()
+const { cajaActual } = useCaja()
 const { userData } = useAuth()
+
+const printPage = () => {
+    // Obtener la URL que contiene los estilos CSS
+    const stylesUrl =
+        'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css'
+    // Obtener el elemento que se imprimirá
+    const element = document.getElementById('cajaOpenMessage')
+    // Obtener el contenido HTML de la página actual
+    const content = element.outerHTML
+
+    // Crear una nueva pestaña y cargar los estilos CSS
+    const newWindow = window.open()
+    const stylesPromise = fetch(stylesUrl).then(response => response.text())
+    stylesPromise.then(styles => {
+        newWindow.document.head.innerHTML = `
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+        <style>${styles}</style>
+        <style>
+            body {
+                font-family: 'Nunito', sans-serif;
+            }
+        </style>
+        `
+    })
+    newWindow.document.open()
+    newWindow.document.write(content)
+    newWindow.document.close()
+
+    // Imprimir el contenido en la nueva pestaña
+    newWindow.onload = function () {
+        const newElement = newWindow.document.getElementById('elementId')
+        newElement && newElement.scrollIntoView() // Asegurarse de que el elemento exista antes de llamar a scrollIntoView()
+        newWindow.print()
+    }
+}
 </script>
 
 <style scoped>

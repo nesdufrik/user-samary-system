@@ -95,6 +95,7 @@
                         type="button"
                         class="btn-modal btn-modal-block btn-modal-secondary col fw-bold"
                         data-bs-dismiss="modal"
+                        @click="closeRedirect"
                     >
                         Cerrar
                     </button>
@@ -105,9 +106,15 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router'
 import { useCaja } from '../../composables/useCaja'
 
 const { actionState, errorApi, cerrarCaja } = useCaja()
+const router = useRouter()
+
+const closeRedirect = () => {
+    router.push({ path: '/' })
+}
 </script>
 
 <style scoped>
