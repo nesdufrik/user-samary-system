@@ -43,6 +43,11 @@
             </div>
         </div>
     </div>
+    <div class="text-center mt-5" id="areaBoton">
+        <button class="btn btn-danger btn-lg" @click="closeWindow">
+            Cerrar
+        </button>
+    </div>
 </template>
 
 <script setup>
@@ -53,12 +58,21 @@ import { useOrdenes } from '../composables/useOrdenes'
 const route = useRoute()
 const { ordenSelected, loadDataToPrint } = useOrdenes()
 
+const closeWindow = () => {
+    window.close()
+}
+
 await loadDataToPrint(route.query.order, route.query.caja)
 
 onMounted(() => {
     window.print()
-    window.close()
 })
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+@media print {
+    #areaBoton {
+        display: none;
+    }
+}
+</style>
