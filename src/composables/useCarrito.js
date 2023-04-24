@@ -10,6 +10,7 @@ export const useCarrito = () => {
         metodoPago,
         actionState,
         subTotalPrecio,
+        productoUrlImage,
     } = storeToRefs(carritoStore)
 
     const agregarCarrito = item => {
@@ -36,12 +37,17 @@ export const useCarrito = () => {
         carritoStore.limpiarCarrito()
     }
 
+    const viewImage = url => {
+        productoUrlImage.value = url
+    }
+
     return {
         //! propiedades
         carritoOrden,
         cuponDesc,
         pagoCliente,
         metodoPago,
+        productoUrlImage,
         actionState,
 
         //! computadas
@@ -54,5 +60,6 @@ export const useCarrito = () => {
         disminuir,
         quitar,
         limpiar,
+        viewImage,
     }
 }

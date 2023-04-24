@@ -12,6 +12,7 @@ export const useCarritoStore = defineStore('carrito', {
             cuponDesc: 0,
             pagoCliente: 0,
             metodoPago: '',
+            productoUrlImage: '',
         }
     },
     actions: {

@@ -7,21 +7,8 @@ import { computed } from 'vue'
 export const useCaja = () => {
     const cajaStore = useCajaStore()
 
-    const {
-        cajasArr,
-        cajaActual,
-        cajaSelected,
-        cajaOrdenesArr,
-        actionState,
-        errorApi,
-    } = storeToRefs(cajaStore)
-
-    // List of operations
-
-    const listAllCajas = async () => {
-        const res = await getAllCajas()
-        cajaStore.addCajas(res)
-    }
+    const { cajaActual, cajaSelected, cajaOrdenesArr, actionState, errorApi } =
+        storeToRefs(cajaStore)
 
     const loadCaja = async () => {
         const res = await getCaja()
@@ -88,14 +75,41 @@ export const useCaja = () => {
         return fecha => dateConvert(fecha)
     })
 
+    const arrayTotales = computed(() => resultadosTotales())
+    const totalCaja = computed(() => funTotalCaja())
+
     function dateConvert(fecha) {
         const isoDate = new Date(fecha)
         const localDate = isoDate.toLocaleString()
         return localDate
     }
 
+    function resultadosTotales() {
+        const result = []
+        cajaOrdenesArr.value.forEach(item => {
+            const payMetodo = item.payMetodo.toLowerCase()
+            const index = result.findIndex(x => x.payMetodo === payMetodo)
+            if (index === -1) {
+                result.push({
+                    payMetodo,
+                    total: item.total,
+                })
+            } else {
+                result[index].total += item.total
+            }
+        })
+        return result
+    }
+
+    function funTotalCaja() {
+        const total = cajaOrdenesArr.value.reduce(
+            (acc, el) => acc + el.total,
+            0
+        )
+        return total
+    }
+
     return {
-        cajasArr,
         cajaOrdenesArr,
         cajaSelected,
         cajaActual,
@@ -103,12 +117,13 @@ export const useCaja = () => {
         errorApi,
 
         dateFormated,
+        arrayTotales,
+        totalCaja,
 
-        loadOrdenesOfCaja,
         loadCaja,
+        loadOrdenesOfCaja,
         abrirCaja,
         cerrarCaja,
-        listAllCajas,
         selectCaja,
     }
 }

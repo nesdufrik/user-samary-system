@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 export const useCajaStore = defineStore('cajas', {
     state: () => {
         return {
-            cajasArr: [],
             cajaSelected: {},
             cajaOrdenesArr: [],
             cajaActual: {},

@@ -110,12 +110,12 @@
                                         v-model="ordenSelected.payMetodo"
                                     >
                                         <option value="" selected></option>
-                                        <option value="efectivo">
-                                            Efectivo
+                                        <option
+                                            v-for="metodo in userSucursal.metodosPago"
+                                            :value="metodo"
+                                        >
+                                            {{ metodo }}
                                         </option>
-                                        <option value="tarjeta">Tarjeta</option>
-                                        <option value="cheque">Cheque</option>
-                                        <option value="qr">QR</option>
                                     </select>
                                     <label for="ordenPago"
                                         >Metodo de pago</label
@@ -124,7 +124,7 @@
                                 <div
                                     class="d-flex align-items-center fs-5"
                                     v-if="
-                                        ordenSelected.payMetodo === 'efectivo'
+                                        ordenSelected.payMetodo === 'Efectivo'
                                     "
                                 >
                                     <span>Efectivo</span>
@@ -150,7 +150,7 @@
                                     class="d-flex fs-5"
                                     v-if="
                                         ordenSelected.moneyClient &&
-                                        ordenSelected.payMetodo === 'efectivo'
+                                        ordenSelected.payMetodo === 'Efectivo'
                                     "
                                 >
                                     <span>Cambio efectivo</span>
@@ -261,9 +261,11 @@
 </template>
 
 <script setup>
+import { useAuth } from '../../composables/useAuth'
 import { useOrdenes } from '../../composables/useOrdenes'
 
 const { ordenSelected, actionState, errorApi, pagarOrden } = useOrdenes()
+const { userSucursal } = useAuth()
 </script>
 
 <style scoped>

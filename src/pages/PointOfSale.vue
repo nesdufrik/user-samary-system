@@ -45,6 +45,7 @@
                         :key="item._id"
                         :nombreProducto="item.name"
                         :precioProducto="item.precio"
+                        :imageProducto="item.image"
                         :itemObj="item"
                     />
                 </div>
@@ -54,9 +55,11 @@
 
     <!-- modal para crear la orden -->
     <AddOrdenModal />
+    <VisualizarImagenModal />
 </template>
 
 <script setup>
+import VisualizarImagenModal from '../components/modalsPOS/VisualizarImagen.vue'
 import PosSlide from '../components/pos/PosSlide.vue'
 import PosCarrito from '../components/pos/PosCarrito.vue'
 import PosCuenta from '../components/pos/PosCuenta.vue'

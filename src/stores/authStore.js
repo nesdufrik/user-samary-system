@@ -10,6 +10,7 @@ export const useAuthStore = defineStore('auth', {
                 name: '',
                 avatar: '',
             },
+            userSucursal: {},
         }
     },
     actions: {

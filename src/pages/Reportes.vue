@@ -74,26 +74,16 @@
                     dateFormated(cajaSelected.createdAt)
                 }}</span>
             </div>
-            <div class="text-start fw-bold">
-                <span>Codigo Caja: </span
-                ><span class="text-secondary">{{ cajaSelected._id }}</span>
-            </div>
             <div class="mt-4 table-responsive">
                 <table class="table table-hover">
                     <tbody>
                         <template
-                            v-for="orden in cajaOrdenesArr"
+                            v-for="(orden, index) in cajaOrdenesArr"
                             :key="orden._id"
                         >
                             <tr>
                                 <td class="align-middle">
-                                    <div class="d-flex flex-column">
-                                        <div>
-                                            <span class="text-secondary"
-                                                >Code: </span
-                                            >{{ orden._id }}
-                                        </div>
-                                    </div>
+                                    {{ index + 1 }}
                                 </td>
                                 <td class="align-middle">
                                     <div
@@ -120,67 +110,16 @@
                         </template>
                     </tbody>
                 </table>
+                <div class="mt-3 fs-5 fw-bold">Total: {{ totalCaja }} Bs.</div>
+                <div v-for="metodo in arrayTotales">
+                    Total de
+                    <span class="fw-bold text-success"
+                        >"{{ metodo.payMetodo }}"</span
+                    >: <span class="fw-bold">{{ metodo.total }}</span> Bs.
+                </div>
             </div>
         </div>
     </div>
-    <!-- #Cajas Anteriores -->
-    <div
-        class="tarjeta rounded-2 bd-callout bd-callout-left bd-callout-secondary p-2 d-flex justify-content-between align-items-center"
-    >
-        <div>
-            <h2 class="fw-bold m-0 d-flex align-items-center">
-                Cajas Anteriores
-            </h2>
-        </div>
-        <button
-            class="tarjeta__button link-secondary align-middle material-icons-round"
-            data-bs-toggle="collapse"
-            data-bs-target="#viewOrdenesAtendidas"
-            aria-expanded="false"
-            aria-controls="viewOrdenesAtendidas"
-        >
-            visibility
-        </button>
-    </div>
-    <!-- ##Table Ordenes Atendidas -->
-    <div
-        id="viewOrdenesAtendidas"
-        class="bg-light rounded-3 table-responsive p-2 accordion-collapse collapse"
-    >
-        <table class="table table-hover">
-            <tbody>
-                <template v-for="caja in cajasArr" :key="caja._id">
-                    <tr>
-                        <td class="align-middle fw-bold">
-                            <span class="text-secondary">Code: </span
-                            >{{ caja._id }}
-                        </td>
-                        <td class="align-middle fw-bold">
-                            <span class="text-secondary">Creada el: </span
-                            >{{ dateFormated(caja.createdAt) }}
-                        </td>
-                        <td class="align-middle fw-bold">
-                            <div v-if="!caja.active">
-                                <span class="text-secondary">Cerrada el: </span
-                                >{{ dateFormated(caja.updatedAt) }}
-                            </div>
-                            <div v-else>
-                                <span class="text-success fs-5">Activa</span>
-                            </div>
-                        </td>
-                        <td class="align-middle text-end">
-                            <span
-                                class="tarjeta__link text-dark material-icons-round"
-                                @click="selectCaja(caja)"
-                                >upload_file</span
-                            >
-                        </td>
-                    </tr>
-                </template>
-            </tbody>
-        </table>
-    </div>
-
     <CerrarCajaModal />
 </template>
 
@@ -190,13 +129,12 @@ import { useCaja } from '../composables/useCaja'
 import { getCurrentInstance } from 'vue'
 
 const {
-    cajasArr,
     cajaSelected,
     dateFormated,
     cajaOrdenesArr,
-    listAllCajas,
+    arrayTotales,
+    totalCaja,
     loadOrdenesOfCaja,
-    selectCaja,
 } = useCaja()
 
 const instance = getCurrentInstance()
@@ -213,7 +151,6 @@ const imprimir = () => {
     )
 }
 
-listAllCajas()
 loadOrdenesOfCaja(cajaSelected.value._id)
 </script>
 <style scoped>

@@ -6,7 +6,8 @@ import { useAuthStore } from '../stores/authStore'
 export const useAuth = () => {
     const router = useRouter()
     const authStore = useAuthStore()
-    const { islogIn, appLoading, userData } = storeToRefs(authStore)
+    const { islogIn, appLoading, userData, userSucursal } =
+        storeToRefs(authStore)
 
     const dirUrl = import.meta.env.VITE_REDIRECT_URL
 
@@ -26,8 +27,8 @@ export const useAuth = () => {
         userData.value = {
             name: oauthResponse.data.fullName,
             avatar: oauthResponse.data.avatar,
-            sucursal: oauthResponse.data.sucursal,
         }
+        userSucursal.value = oauthResponse.data.sucursal
         islogIn.value = true
         router.push('/')
         return
@@ -52,8 +53,8 @@ export const useAuth = () => {
         userData.value = {
             name: res.data.fullName,
             avatar: res.data.avatar,
-            sucursal: res.data.sucursal,
         }
+        userSucursal.value = res.data.sucursal
     }
 
     return {
@@ -61,6 +62,7 @@ export const useAuth = () => {
         islogIn,
         appLoading,
         userData,
+        userSucursal,
 
         //! computadas
 

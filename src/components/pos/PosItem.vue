@@ -1,19 +1,30 @@
 <template>
-    <div
-        class="col enlace_action"
-        role="button"
-        @click="handleClick($event, itemObj)"
-        @click.shift="handleShiftClick($event, itemObj)"
-    >
+    <div class="col">
         <div
-            class="rounded-2 bd-callout bd-callout-left bd-callout-secondary d-flex justify-content-between fw-bold m-0"
+            class="rounded-2 bd-callout bd-callout-left bd-callout-secondary d-flex fw-bold m-0 h-100"
         >
-            <div class="p-2 fs-5 product-name">
-                <div>{{ nombreProducto }}</div>
+            <div
+                v-if="imageProducto"
+                class="image-fit"
+                data-bs-toggle="modal"
+                data-bs-target="#viewImageModal"
+                @click="viewImage(imageProducto)"
+            >
+                <img :src="imageProducto" alt="" />
             </div>
-            <div class="product-price">
-                <div class="price-circle fs-5">
-                    <small>Bs.&nbsp;</small>{{ precioProducto }}
+            <div
+                class="enlace_action d-flex justify-content-between w-100"
+                role="button"
+                @click="handleClick($event, itemObj)"
+                @click.shift="handleShiftClick($event, itemObj)"
+            >
+                <div class="p-2 fs-5 product-name">
+                    <span>{{ nombreProducto }}</span>
+                </div>
+                <div class="product-price ms-auto">
+                    <div class="price-circle fs-5">
+                        <small>Bs.&nbsp;</small>{{ precioProducto }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -26,10 +37,11 @@ import { useCarrito } from '../../composables/useCarrito'
 const props = defineProps({
     nombreProducto: String,
     precioProducto: Number,
+    imageProducto: String,
     itemObj: Object,
 })
 
-const { agregarCarrito, agregarCarritoNota } = useCarrito()
+const { agregarCarrito, agregarCarritoNota, viewImage } = useCarrito()
 
 const handleClick = (event, item) => {
     if (event.shiftKey) {
@@ -77,6 +89,14 @@ const handleShiftClick = (event, item) => {
 }
 
 .bd-callout-left {
-    border-left: 0.25rem solid var(--bs-success-border-subtle);
+    border-left: 0.375rem solid var(--bs-success-border-subtle);
+}
+.image-fit {
+    padding: 0px;
+}
+.image-fit img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
 }
 </style>

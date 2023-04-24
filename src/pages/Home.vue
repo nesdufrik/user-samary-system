@@ -5,10 +5,11 @@
             cajaActual.active ? '' : 'noactive',
         ]"
     >
-        <h1 class="fw-bold">{{ userData.sucursal.name }}</h1>
+        <h1 class="fw-bold">{{ userSucursal.name }}</h1>
         <p>
-            {{ userData.sucursal.arroba }}<br />{{ userData.sucursal.direccion
-            }}<br />{{ userData.sucursal.telefono }}
+            {{ userSucursal.arroba }}<br />{{ userSucursal.direccion }}<br />{{
+                userSucursal.telefono
+            }}
         </p>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
@@ -24,10 +25,12 @@
                     />
                 </div>
                 <div class="ms-auto text-end">
-                    <h2 class="fw-bold">¡Importante!</h2>
+                    <h2 class="fw-bold text-success">¡Importante!</h2>
                     <p>
                         Antes de utilizar el sistema, es necesario abrir una
-                        <span class="fw-bold">caja de registro.</span>
+                        <span class="fw-bold text-success"
+                            >caja de registro.</span
+                        >
                     </p>
                     <button
                         type="button"
@@ -85,7 +88,7 @@ import { useAuth } from '../composables/useAuth'
 import { useCaja } from '../composables/useCaja'
 
 const { cajaActual } = useCaja()
-const { userData } = useAuth()
+const { userSucursal } = useAuth()
 
 const printPage = () => {
     // Obtener la URL que contiene los estilos CSS
