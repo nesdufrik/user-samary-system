@@ -43,6 +43,7 @@ export const useOrdenes = () => {
         }
         actionState.value = false
         carritoStore.limpiarCarrito()
+        printPageToOrder(check.data._id, cajaActual.value._id)
     }
 
     const listOrdenes = async () => {
@@ -84,6 +85,7 @@ export const useOrdenes = () => {
         ordenesStore.updateOrden(response)
         actionState.value = false
         carritoStore.limpiarCarrito()
+        printPageToOrder(ordenIdSelected.value, cajaActual.value._id)
     }
 
     const selectOrden = id => {
@@ -107,6 +109,21 @@ export const useOrdenes = () => {
     const selectOrdenToPay = id => {
         const { _id, cliente, mesa, pedido, estado, total } =
             ordenesArr.value.find(el => el._id == id)
+
+        ordenSelected.value = {
+            _id,
+            cliente: cliente ?? {},
+            mesa,
+            pedido,
+            estado,
+            total,
+        }
+    }
+
+    const loadDataToPrint = async (orderId, cajaId) => {
+        ordenesStore.addOrdenes(await getOrdenes(cajaId))
+        const { _id, cliente, mesa, pedido, estado, total } =
+            ordenesArr.value.find(el => el._id == orderId)
 
         ordenSelected.value = {
             _id,
@@ -190,6 +207,14 @@ export const useOrdenes = () => {
         actionState.value = false
         ordenIdSelected.value = ''
         errorApi.value = {}
+    }
+
+    const printPage = (order, caja) => {
+        window.open(`/printOrder?order=${order}&caja=${caja}`, '_blank')
+    }
+
+    const printPageToOrder = (order, caja) => {
+        window.open(`/printOrderToOrder?order=${order}&caja=${caja}`, '_blank')
     }
 
     const nroPendientes = computed(() => totalEstado('pendiente'))
@@ -296,5 +321,7 @@ export const useOrdenes = () => {
         selectOrden,
         selectOrdenToCheck,
         selectOrdenToPay,
+        loadDataToPrint,
+        printPage,
     }
 }

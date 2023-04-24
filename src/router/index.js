@@ -16,6 +16,24 @@ const routes = [
         component: OAuth,
     },
     {
+        path: '/printOrder',
+        name: 'PrintOrder',
+        meta: {
+            title: 'Imprimir Orden',
+            requiresAuth: true,
+        },
+        component: () => import('../pages/PrintOrder.vue'),
+    },
+    {
+        path: '/printOrderToOrder',
+        name: 'PrintOrderToOrder',
+        meta: {
+            title: 'Imprimir Orden',
+            requiresAuth: true,
+        },
+        component: () => import('../pages/PrintOrderToOrder.vue'),
+    },
+    {
         path: '/',
         name: 'Inicio',
         meta: {

@@ -341,27 +341,14 @@
 </template>
 
 <script setup>
-import { getCurrentInstance } from 'vue'
 import { useCarrito } from '../../composables/useCarrito'
 import { useOrdenes } from '../../composables/useOrdenes'
-const instance = getCurrentInstance()
 const { carritoOrden } = useCarrito()
 const { ordenar, actualizar, actionState, errorApi } = useOrdenes()
 
 const imprimir = () => {
     if (!carritoOrden.value.estado) ordenar()
     if (carritoOrden.value.estado) actualizar()
-
-    instance.appContext.config.globalProperties.$htmlToPaper(
-        'ordenDataToPrint',
-        {
-            name: '_blank',
-            specs: ['fullscreen=no', 'titlebar=no', 'scrollbars=no'],
-            styles: [
-                'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css',
-            ],
-        }
-    )
 }
 </script>
 

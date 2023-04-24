@@ -77,7 +77,7 @@
                     <button
                         type="button"
                         class="btn-modal btn-modal-right btn-modal-primary col fw-bold"
-                        @click="imprimir"
+                        @click="printPage(ordenSelected._id, cajaActual._id)"
                     >
                         <span>Imprimir Orden</span>
                     </button>
@@ -88,23 +88,10 @@
 </template>
 
 <script setup>
-import { getCurrentInstance } from 'vue'
 import { useOrdenes } from '../../composables/useOrdenes'
-const instance = getCurrentInstance()
-const { ordenSelected } = useOrdenes()
-
-const imprimir = () => {
-    instance.appContext.config.globalProperties.$htmlToPaper(
-        'ordenDataToPrint',
-        {
-            name: '_blank',
-            specs: ['fullscreen=no', 'titlebar=no', 'scrollbars=no'],
-            styles: [
-                'https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css',
-            ],
-        }
-    )
-}
+import { useCaja } from '../../composables/useCaja'
+const { ordenSelected, printPage } = useOrdenes()
+const { cajaActual } = useCaja()
 </script>
 
 <style scoped>
