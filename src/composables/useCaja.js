@@ -1,6 +1,6 @@
 import { storeToRefs } from 'pinia'
 import { useCajaStore } from '../stores/cajaStore'
-import { getAllCajas, getCaja, postCaja, putCaja } from '../helpers/helpCaja'
+import { getCaja, postCaja, putCaja } from '../helpers/helpCaja'
 import { getOrdenesTerminadas } from '../helpers/helpOrdenes'
 import { computed } from 'vue'
 
@@ -50,6 +50,8 @@ export const useCaja = () => {
         actionState.value = true
         const payload = {
             active: false,
+            reporte: arrayTotales.value,
+            total: totalCaja.value,
         }
         const check = await putCaja(payload, cajaActual.value._id)
         if (!check.success) {
