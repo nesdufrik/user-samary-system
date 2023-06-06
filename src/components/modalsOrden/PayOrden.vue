@@ -75,6 +75,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Formulario datos de pago -->
                     <div id="payOrdenSection" class="text-center">
                         <div
                             id="contenidoPosCuenta"

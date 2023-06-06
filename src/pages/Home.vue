@@ -50,7 +50,11 @@
                 <div>
                     <h4 class="fw-bold">
                         Caja:
-                        <span class="text-success fs-3">Activa</span>
+                        <span class="text-success fs-3">Activa</span><br />
+                        Fecha:
+                        <span class="text-success fs-3">{{
+                            localCajaActual
+                        }}</span>
                     </h4>
                     <p>
                         Esta caja te permitirá almacenar y administrar tu
@@ -84,6 +88,9 @@ import { useCaja } from '../composables/useCaja'
 
 const { cajaActual } = useCaja()
 const { userSucursal } = useAuth()
+
+const dateCajaActual = new Date(cajaActual.value.createdAt)
+const localCajaActual = dateCajaActual.toLocaleDateString()
 </script>
 
 <style scoped>

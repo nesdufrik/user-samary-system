@@ -9,13 +9,14 @@
             <div
                 id="titleSubTotalPosCuenta"
                 class="d-flex justify-content-between fs-5"
+                v-if="false"
             >
                 <span>Sub total </span>
                 <span>
                     {{ subTotalPrecio }}
                 </span>
             </div>
-            <div id="accordionDescuentoPago" class="accordion">
+            <div id="accordionDescuentoPago" class="accordion" v-if="false">
                 <h5 class="d-flex fs-5 mb-0">
                     <span>Descuento</span>
                     <span
