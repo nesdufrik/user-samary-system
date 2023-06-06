@@ -90,7 +90,11 @@ const { cajaActual } = useCaja()
 const { userSucursal } = useAuth()
 
 const dateCajaActual = new Date(cajaActual.value.createdAt)
-const localCajaActual = dateCajaActual.toLocaleDateString()
+const localCajaActual = dateCajaActual.toLocaleDateString('es-ES', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+})
 </script>
 
 <style scoped>
