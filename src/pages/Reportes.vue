@@ -59,7 +59,7 @@
         </button>
     </div>
 
-    <!-- ##Table Ordenes Pendientes -->
+    <!-- ##Table Reporte Ordenes Realizadas -->
     <div
         id="reporteDiaParaImprimir"
         class="bg-light rounded-3 p-2 accordion-collapse collapse show"

@@ -116,6 +116,9 @@ export const useOrdenes = () => {
             mesa,
             pedido,
             estado,
+            desc: 0,
+            propina: 0,
+            subtotal: total,
             total,
         }
     }

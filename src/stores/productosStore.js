@@ -24,9 +24,9 @@ export const useProductosStore = defineStore('productos', {
     },
     getters: {
         etiquetasArr: state => {
-            return state.categoriasArr.reduce((final, item) => {
-                return final.concat(item.etiquetas)
-            }, [])
+            return state.categoriasArr
+                .flatMap(categoria => categoria.etiquetas)
+                .sort()
         },
     },
 })

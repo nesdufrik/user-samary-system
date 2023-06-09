@@ -122,6 +122,28 @@
                                         >Metodo de pago</label
                                     >
                                 </div>
+                                <div class="form-floating col-6">
+                                    <input
+                                        v-model="ordenSelected.desc"
+                                        type="text"
+                                        class="form-control"
+                                        id="clienteInputDesc"
+                                    />
+                                    <label for="clienteInputDesc"
+                                        >Descuento</label
+                                    >
+                                </div>
+                                <div class="form-floating col-6">
+                                    <input
+                                        v-model="ordenSelected.propina"
+                                        type="text"
+                                        class="form-control"
+                                        id="clienteInputPropina"
+                                    />
+                                    <label for="clienteInputPropina"
+                                        >Propina</label
+                                    >
+                                </div>
                                 <div
                                     class="d-flex align-items-center fs-5"
                                     v-if="
@@ -148,7 +170,20 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="d-flex fs-5"
+                                    class="d-flex fs-5 text-danger"
+                                    v-if="
+                                        ordenSelected.moneyClient &&
+                                        ordenSelected.propina &&
+                                        ordenSelected.payMetodo === 'Efectivo'
+                                    "
+                                >
+                                    <span>Propina</span>
+                                    <span class="ms-auto">{{
+                                        ordenSelected.propina
+                                    }}</span>
+                                </div>
+                                <div
+                                    class="d-flex fs-5 text-success"
                                     v-if="
                                         ordenSelected.moneyClient &&
                                         ordenSelected.payMetodo === 'Efectivo'
@@ -157,12 +192,38 @@
                                     <span>Cambio efectivo</span>
                                     <span class="ms-auto">{{
                                         ordenSelected.moneyClient -
-                                        ordenSelected.total
+                                        montoPagar -
+                                        ordenSelected.propina
                                     }}</span>
+                                </div>
+                                <hr />
+                                <div class="d-flex fw-bold fs-5 col-12">
+                                    <span>Subtotal</span>
+                                    <span class="ms-auto">
+                                        {{ ordenSelected.subtotal }}
+                                    </span>
+                                </div>
+                                <div
+                                    class="d-flex fw-bold fs-5 col-12 text-danger"
+                                    v-if="ordenSelected.desc"
+                                >
+                                    <span>Descuento</span>
+                                    <span class="ms-auto">
+                                        - {{ ordenSelected.desc }}
+                                    </span>
                                 </div>
                                 <div class="d-flex fw-bold fs-4 col-12">
                                     <span>Monto a Pagar </span>
-                                    <span class="ms-auto">
+                                    <span
+                                        class="ms-auto"
+                                        v-if="
+                                            ordenSelected.desc &&
+                                            ordenSelected.subtotal
+                                        "
+                                    >
+                                        {{ montoPagar }}
+                                    </span>
+                                    <span class="ms-auto" v-else>
                                         {{ ordenSelected.total }}
                                     </span>
                                 </div>
@@ -262,11 +323,26 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useAuth } from '../../composables/useAuth'
 import { useOrdenes } from '../../composables/useOrdenes'
 
 const { ordenSelected, actionState, errorApi, pagarOrden } = useOrdenes()
 const { userSucursal } = useAuth()
+
+const montoPagar = computed(() => calcularPago())
+
+function calcularPago() {
+    const monto =
+        parseFloat(ordenSelected.value.subtotal) -
+        parseFloat(ordenSelected.value.desc)
+
+    ordenSelected.value.total =
+        parseFloat(ordenSelected.value.subtotal) -
+        parseFloat(ordenSelected.value.desc)
+
+    return monto
+}
 </script>
 
 <style scoped>
