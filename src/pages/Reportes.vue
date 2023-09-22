@@ -11,26 +11,17 @@
             </h2>
         </div>
         <button
-            class="tarjeta__button link-danger align-middle material-icons-round tarjeta__button--edit2"
+            class="tarjeta__button link-danger align-middle material-icons-round tarjeta__button--edit"
             data-bs-target="#cerrarCajaModal"
             data-bs-toggle="modal"
         >
             archive
         </button>
         <button
-            class="tarjeta__button link-secondary align-middle material-icons-round tarjeta__button--edit"
+            class="tarjeta__button link-secondary align-middle material-icons-round tarjeta__button"
             @click="imprimir"
         >
             print
-        </button>
-        <button
-            class="tarjeta__button link-secondary align-middle material-icons-round"
-            data-bs-toggle="collapse"
-            data-bs-target="#reporteDiaParaImprimir"
-            aria-expanded="true"
-            aria-controls="reporteDiaParaImprimir"
-        >
-            visibility
         </button>
     </div>
     <div
@@ -44,26 +35,14 @@
             </h2>
         </div>
         <button
-            class="tarjeta__button link-secondary align-middle material-icons-round tarjeta__button--edit"
+            class="tarjeta__button link-secondary align-middle material-icons-round tarjeta__button"
         >
             print
-        </button>
-        <button
-            class="tarjeta__button link-secondary align-middle material-icons-round"
-            data-bs-toggle="collapse"
-            data-bs-target="#reporteDiaParaImprimir"
-            aria-expanded="true"
-            aria-controls="reporteDiaParaImprimir"
-        >
-            visibility
         </button>
     </div>
 
     <!-- ##Table Reporte Ordenes Realizadas -->
-    <div
-        id="reporteDiaParaImprimir"
-        class="bg-light rounded-3 p-2 accordion-collapse collapse show"
-    >
+    <div id="reporteDiaParaImprimir" class="bg-light rounded-3 p-2">
         <div class="p-3">
             <div class="text-center">
                 <h2 class="fw-bold">Reporte del Día</h2>
@@ -76,6 +55,16 @@
             </div>
             <div class="mt-4 table-responsive">
                 <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Método</th>
+                            <th>Propina</th>
+                            <th>Subtotal</th>
+                            <th>Desc.</th>
+                            <th class="text-end">Total</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <template
                             v-for="(orden, index) in cajaOrdenesArr"
@@ -86,37 +75,63 @@
                                     {{ index + 1 }}
                                 </td>
                                 <td class="align-middle">
-                                    <div
-                                        class="d-flex justify-content-between flex-wrap"
-                                    >
-                                        <div class="me-3">
-                                            <span class="text-secondary"
-                                                >Metodo de pago: </span
-                                            >{{ orden.payMetodo }}
-                                        </div>
-                                        <div class="me-3">
-                                            <span class="text-secondary"
-                                                >Hora: </span
-                                            >{{ dateFormated(orden.updatedAt) }}
-                                        </div>
-                                    </div>
+                                    {{ orden.payMetodo }} <br />
+                                    <small class="text-secondary">{{
+                                        dateFormated(orden.updatedAt)
+                                    }}</small>
                                 </td>
-                                <td class="align-middle text-end">
-                                    <span class="fw-bold"
-                                        >{{ orden.total }} Bs.</span
+                                <td class="align-middle">
+                                    <span class="text-secondary"
+                                        >{{ orden.propina }} Bs.</span
                                     >
+                                </td>
+                                <td class="align-middle">
+                                    <span class="text-secondary"
+                                        >{{ orden.subtotal }} Bs.</span
+                                    >
+                                </td>
+                                <td class="align-middle">
+                                    <span class="text-secondary"
+                                        >{{ orden.desc }} Bs.</span
+                                    >
+                                </td>
+                                <td class="align-middle fw-bold text-end">
+                                    {{ orden.total }} Bs.
+                                </td>
+                            </tr>
+                        </template>
+                        <tr class="bg-success bg-opacity-25">
+                            <td colspan="5" class="align-middle fs-5 fw-bold">
+                                TOTAL
+                            </td>
+                            <td class="align-middle fs-5 fw-bold text-end">
+                                {{ totalCaja }} Bs.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 table-responsive-sm col-md-4">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="py-0">Detalle</th>
+                            <th class="text-end py-0">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template v-for="metodo in arrayTotales">
+                            <tr>
+                                <td class="py-0 text-success">
+                                    {{ metodo.payMetodo }}
+                                </td>
+                                <td class="text-end py-0">
+                                    {{ metodo.total }} Bs.
                                 </td>
                             </tr>
                         </template>
                     </tbody>
                 </table>
-                <div class="mt-3 fs-5 fw-bold">Total: {{ totalCaja }} Bs.</div>
-                <div v-for="metodo in arrayTotales">
-                    Total de
-                    <span class="fw-bold text-success"
-                        >"{{ metodo.payMetodo }}"</span
-                    >: <span class="fw-bold">{{ metodo.total }}</span> Bs.
-                </div>
             </div>
         </div>
     </div>
@@ -178,9 +193,5 @@ loadOrdenesOfCaja(cajaSelected.value._id)
 
 .tarjeta__button--edit {
     margin-right: 2rem;
-}
-
-.tarjeta__button--edit2 {
-    margin-right: 4rem;
 }
 </style>

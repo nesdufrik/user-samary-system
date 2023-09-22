@@ -100,6 +100,16 @@ export const useCaja = () => {
                 result[index].total += item.total
             }
         })
+        const propinaTotal = cajaOrdenesArr.value.reduce(
+            (total, item) => total + item.propina,
+            0
+        )
+        result.push({ payMetodo: 'propina', total: propinaTotal })
+        const descuentoTotal = cajaOrdenesArr.value.reduce(
+            (total, item) => total + item.desc,
+            0
+        )
+        result.push({ payMetodo: 'desc', total: descuentoTotal })
         return result
     }
 
