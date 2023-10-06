@@ -10,8 +10,17 @@
 </template>
 
 <script setup>
-import Home from './Home.vue'
+import { defineAsyncComponent } from 'vue'
 import LoadingPage from './LoadingPage.vue'
+
+const Home = defineAsyncComponent(
+	() =>
+		new Promise((resolve) => {
+			setTimeout(() => {
+				resolve(import('@/pages/Home.vue'))
+			}, 5000)
+		})
+)
 </script>
 
 <style scoped></style>
