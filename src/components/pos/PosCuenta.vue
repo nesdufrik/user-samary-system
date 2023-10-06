@@ -68,29 +68,18 @@
 				Cancelar
 			</button>
 			<button
-				v-if="carritoOrden.pedido.length === 0"
 				type="button"
-				class="btn-modal btn-modal-disabled btn-modal-right col-6 disabled fw-bold"
-			>
-				Realizar Pedido
-			</button>
-			<button
-				v-else-if="carritoOrden.estado"
-				type="button"
-				class="btn-modal btn-modal-primary btn-modal-right col-6 fw-bold"
-				data-bs-toggle="modal"
-				data-bs-target="#createPosOrdenEnd"
-			>
-				Actualizar Pedido
-			</button>
-			<button
-				v-else
-				type="button"
-				class="btn-modal btn-modal-primary btn-modal-right col-6 fw-bold"
+				:class="[
+					carritoOrden.pedido.length === 0
+						? 'btn-modal-disabled'
+						: 'btn-modal-primary',
+				]"
+				class="btn-modal btn-modal-right col-6 fw-bold"
 				data-bs-toggle="modal"
 				data-bs-target="#createPosOrden"
+				:disabled="carritoOrden.pedido.length === 0"
 			>
-				Realizar Pedido
+				{{ carritoOrden.estado ? 'Actualizar Pedido' : 'Realizar Pedido' }}
 			</button>
 		</div>
 	</div>
