@@ -4,327 +4,244 @@ import { useCarritoStore } from '../stores/carritoStore'
 import { useOrdenesStore } from '../stores/ordenesStore'
 import { useCajaStore } from '../stores/cajaStore'
 import {
-    deleteOrden,
-    getOrdenes,
-    payOrden,
-    postOrden,
-    putOrden,
+	deleteOrden,
+	getOrden,
+	getOrdenes,
+	payOrden,
+	postOrden,
+	putOrden,
 } from '../helpers/helpOrdenes'
 import { computed } from 'vue'
 
 export const useOrdenes = () => {
-    const router = useRouter()
+	const router = useRouter()
 
-    const carritoStore = useCarritoStore()
-    const ordenesStore = useOrdenesStore()
-    const cajaStore = useCajaStore()
+	const carritoStore = useCarritoStore()
+	const ordenesStore = useOrdenesStore()
+	const cajaStore = useCajaStore()
 
-    const { cajaActual } = storeToRefs(cajaStore)
-    const { carritoOrden } = storeToRefs(carritoStore)
-    const {
-        ordenesArr,
-        ordenIdSelected,
-        ordenSelected,
-        actionState,
-        errorApi,
-    } = storeToRefs(ordenesStore)
+	const { cajaActual } = storeToRefs(cajaStore)
+	const { carritoOrden } = storeToRefs(carritoStore)
+	const { ordenesArr, ordenIdSelected, ordenSelected, actionState, errorApi } =
+		storeToRefs(ordenesStore)
 
-    const ordenar = async () => {
-        errorApi.value.show = false
-        actionState.value = true
-        const check = await postOrden(carritoOrden.value, cajaActual.value._id)
-        if (!check.success) {
-            actionState.value = false
-            errorApi.value = {
-                show: true,
-                message: check.data.message,
-            }
-            return
-        }
-        actionState.value = false
-        carritoStore.limpiarCarrito()
-        printPageToOrder(check.data._id, cajaActual.value._id)
-    }
+	const ordenar = async () => {
+		errorApi.value.show = false
+		actionState.value = true
+		const check = await postOrden(carritoOrden.value, cajaActual.value._id)
+		if (!check.success) {
+			actionState.value = false
+			errorApi.value = {
+				show: true,
+				message: check.data.message,
+			}
+			return
+		}
+		actionState.value = false
+		carritoStore.limpiarCarrito()
+		printPageToOrder(check.data._id, cajaActual.value._id)
+	}
 
-    const listOrdenes = async () => {
-        ordenesStore.addOrdenes(await getOrdenes(cajaActual.value._id))
-    }
+	const listOrdenes = async () => {
+		ordenesStore.addOrdenes(await getOrdenes(cajaActual.value._id))
+	}
 
-    const manageOrden = ordenId => {
-        const { cliente, mesa, pedido, tipo, total } = ordenesArr.value.find(
-            el => el._id == ordenId
-        )
+	const manageOrden = (ordenId) => {
+		const { cliente, mesa, pedido, tipo, total } = ordenesArr.value.find(
+			(el) => el._id === ordenId
+		)
 
-        carritoOrden.value = {
-            cliente: cliente ?? {},
-            estado: 'pendiente',
-            mesa,
-            pedido,
-            tipo,
-            total,
-        }
-        ordenIdSelected.value = ordenId
-        router.push({ path: '/pos' })
-    }
+		carritoOrden.value = {
+			cliente: cliente ?? {},
+			estado: 'pendiente',
+			mesa,
+			pedido,
+			tipo,
+			total,
+		}
+		ordenIdSelected.value = ordenId
+		router.push({ path: '/pos' })
+	}
 
-    const actualizar = async () => {
-        errorApi.value.show = false
-        actionState.value = true
-        const response = await putOrden(
-            ordenIdSelected.value,
-            carritoOrden.value
-        )
-        if (!response.success) {
-            actionState.value = false
-            errorApi.value = {
-                show: true,
-                message: response.data.message,
-            }
-            return
-        }
-        ordenesStore.updateOrden(response)
-        actionState.value = false
-        carritoStore.limpiarCarrito()
-        printPageToOrder(ordenIdSelected.value, cajaActual.value._id)
-    }
+	const actualizar = async () => {
+		errorApi.value.show = false
+		actionState.value = true
 
-    const selectOrden = id => {
-        ordenIdSelected.value = id
-    }
+		const { pedido } = carritoOrden.value
+		const hayPendientes = pedido.some((orden) => orden.pendiente > 0)
 
-    const selectOrdenToCheck = id => {
-        const { _id, cliente, mesa, pedido, estado } = ordenesArr.value.find(
-            el => el._id == id
-        )
+		if (!hayPendientes) carritoOrden.value.estado = 'finalizado'
 
-        ordenSelected.value = {
-            _id,
-            cliente: cliente ?? {},
-            mesa,
-            pedido,
-            estado,
-        }
-    }
+		const response = await putOrden(ordenIdSelected.value, carritoOrden.value)
+		if (!response.success) {
+			actionState.value = false
+			errorApi.value = {
+				show: true,
+				message: response.data.message,
+			}
+			return
+		}
+		ordenesStore.updateOrden(response)
+		actionState.value = false
+		carritoStore.limpiarCarrito()
+		printPageToOrder(ordenIdSelected.value, cajaActual.value._id)
+	}
 
-    const selectOrdenToPay = id => {
-        const { _id, cliente, mesa, pedido, estado, total } =
-            ordenesArr.value.find(el => el._id == id)
+	const selectOrden = (id) => {
+		const { _id, cliente, mesa, pedido, estado, total } = ordenesArr.value.find(
+			(el) => el._id === id
+		)
 
-        ordenSelected.value = {
-            _id,
-            cliente: cliente ?? {},
-            mesa,
-            pedido,
-            estado,
-            desc: 0,
-            propina: 0,
-            subtotal: total,
-            total,
-        }
-    }
+		ordenSelected.value = {
+			_id,
+			cliente: cliente ?? {},
+			mesa,
+			pedido,
+			estado,
+			desc: 0,
+			propina: 0,
+			subtotal: total,
+			total,
+		}
+	}
 
-    const loadDataToPrint = async (orderId, cajaId) => {
-        ordenesStore.addOrdenes(await getOrdenes(cajaId))
-        const { _id, cliente, mesa, pedido, estado, total } =
-            ordenesArr.value.find(el => el._id == orderId)
+	const loadDataToPrint = async (orderId) => {
+		const data = await getOrden(orderId)
+		ordenSelected.value = data.data
+	}
 
-        ordenSelected.value = {
-            _id,
-            cliente: cliente ?? {},
-            mesa,
-            pedido,
-            estado,
-            total,
-        }
-    }
+	const checkOrdenUpdate = async (index) => {
+		ordenSelected.value.pedido[index].pendiente = 0
+		actionState.value = true
 
-    const checkOrdenUpdate = async index => {
-        ordenSelected.value.pedido[index].pendiente = 0
-        actionState.value = true
+		const totalPendientes = ordenSelected.value.pedido.filter(
+			(el) => el.pendiente !== 0
+		)
 
-        const totalPendientes = ordenSelected.value.pedido.filter(
-            el => el.pendiente !== 0
-        )
+		if (totalPendientes.length === 0) {
+			ordenSelected.value.estado = 'finalizado'
+		}
+		const response = await putOrden(
+			ordenSelected.value._id,
+			ordenSelected.value
+		)
+		if (!response.success) {
+			actionState.value = false
+			errorApi.value = {
+				show: true,
+				message: response.data.message,
+			}
+			return
+		}
+		ordenesStore.updateOrden(response)
+		actionState.value = false
+	}
 
-        if (totalPendientes.length === 0) {
-            ordenSelected.value.estado = 'finalizado'
-        }
-        const response = await putOrden(
-            ordenSelected.value._id,
-            ordenSelected.value
-        )
-        if (!response.success) {
-            actionState.value = false
-            errorApi.value = {
-                show: true,
-                message: response.data.message,
-            }
-            return
-        }
-        ordenesStore.updateOrden(response)
-        actionState.value = false
-    }
+	const pagarOrden = async () => {
+		actionState.value = true
 
-    const pagarOrden = async () => {
-        errorApi.value.show = false
-        actionState.value = true
+		if (!ordenSelected.value.payMetodo) {
+			actionState.value = false
+			errorApi.value = {
+				show: true,
+				message: 'Debe elegir un metodo de pago',
+			}
+			return
+		}
+		ordenesStore.updateOrden(
+			await payOrden(ordenSelected.value._id, ordenSelected.value)
+		)
+		actionState.value = false
+	}
 
-        if (!ordenSelected.value.payMetodo) {
-            actionState.value = false
-            errorApi.value = {
-                show: true,
-                message: 'Debe elegir un metodo de pago',
-            }
-            return
-        }
+	const borrar = async (id) => {
+		errorApi.value.show = false
+		actionState.value = true
+		const response = await deleteOrden(id)
+		if (!response.success) {
+			actionState.value = false
+			errorApi.value = {
+				show: true,
+				message: response.data.message,
+			}
+			return
+		}
+		ordenesStore.deleteOrden(id)
+		actionState.value = false
+		errorApi.value = {}
+	}
 
-        const response = await payOrden(
-            ordenSelected.value._id,
-            ordenSelected.value
-        )
-        if (!response.success) {
-            actionState.value = false
-            errorApi.value = {
-                show: true,
-                message: response.data.message,
-            }
-            return
-        }
-        ordenesStore.updateOrden(response)
-        actionState.value = false
-    }
+	const printPage = (order) => {
+		window.open(`/printOrder?order=${order}`, '_blank')
+	}
 
-    const borrar = async () => {
-        errorApi.value.show = false
-        actionState.value = true
-        const response = await deleteOrden(ordenIdSelected.value)
-        if (!response.success) {
-            actionState.value = false
-            errorApi.value = {
-                show: true,
-                message: response.data.message,
-            }
-            return
-        }
-        ordenesStore.deleteOrden(ordenIdSelected.value)
-        actionState.value = false
-        ordenIdSelected.value = ''
-        errorApi.value = {}
-    }
+	const printPageToOrder = (order, caja) => {
+		window.open(`/printOrderToOrder?order=${order}&caja=${caja}`, '_blank')
+	}
 
-    const printPage = (order, caja) => {
-        window.open(`/printOrder?order=${order}&caja=${caja}`, '_blank')
-    }
+	const nroTotalPedientes = computed(() => (array) => {
+		const total = array.reduce((acc, el) => acc + (el.pendiente ? 1 : 0), 0)
+		return total
+	})
 
-    const printPageToOrder = (order, caja) => {
-        window.open(`/printOrderToOrder?order=${order}&caja=${caja}`, '_blank')
-    }
+	const cleanForm = () => {
+		ordenSelected.value = { cliente: {} }
+	}
 
-    const nroPendientes = computed(() => totalEstado('pendiente'))
-    const nroAtendidos = computed(() => totalEstado('finalizado'))
-    const nroTerminados = computed(() => totalEstado('terminado'))
-    const timeOrden = computed(() => {
-        return date => formatDate(date)
-    })
+	// Analiticas
+	const totalBeneficios = computed(() => {
+		const finalizado = ordenesArr.value.filter(
+			(el) => el.estado === 'terminado'
+		)
+		const total = finalizado.reduce((acc, el) => acc + (el.total || 0), 0)
+		return total
+	})
+	const totalOrdenes = computed(() => {
+		const finalizado = ordenesArr.value.filter(
+			(el) => el.estado === 'terminado'
+		)
+		const total = finalizado.length
+		return total
+	})
+	const totalCantidad = computed(() => {
+		const finalizado = ordenesArr.value.filter(
+			(el) => el.estado === 'terminado'
+		)
+		const total = finalizado.reduce((total, orden) => {
+			return (
+				total +
+				orden.pedido.reduce((subtotal, item) => {
+					return subtotal + item.cantidad
+				}, 0)
+			)
+		}, 0)
 
-    const nroTotalPedientes = computed(() => {
-        return total => totalPendiente(total)
-    })
-    const puedoBorrar = computed(() => {
-        return res => sePuedeBorrar(res)
-    })
+		return total
+	})
 
-    function totalEstado(estado) {
-        const total = ordenesArr.value.filter(el => el.estado === estado)
-        return total.length
-    }
-    function formatDate(date) {
-        const isoDate = new Date(date)
-        const hora = isoDate.toLocaleTimeString([], {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: false,
-        })
-        return hora
-    }
-    function totalPendiente(array) {
-        // const total = array.reduce((acc, el) => acc + (el.pendiente || 0), 0)
-        const total = array.reduce((acc, el) => acc + (el.pendiente ? 1 : 0), 0)
-        return total
-    }
-    function sePuedeBorrar(array) {
-        const qty = array.reduce((acc, el) => acc + (el.cantidad || 0), 0)
-        const pen = array.reduce((acc, el) => acc + (el.pendiente || 0), 0)
-        if (qty !== pen) {
-            return false
-        }
-        return true
-    }
+	return {
+		ordenesArr,
+		ordenSelected,
+		actionState,
+		errorApi,
 
-    //Analiticas
-    const totalBeneficios = computed(() => funTotalBeneficios())
-    const totalOrdenes = computed(() => funTotalOrdenes())
-    const totalCantidad = computed(() => funTotalCantidad())
+		nroTotalPedientes,
 
-    function funTotalBeneficios() {
-        const finalizado = ordenesArr.value.filter(
-            el => el.estado === 'terminado'
-        )
-        const total = finalizado.reduce((acc, el) => acc + (el.total || 0), 0)
-        return total
-    }
-    function funTotalOrdenes() {
-        const finalizado = ordenesArr.value.filter(
-            el => el.estado === 'terminado'
-        )
-        const total = finalizado.length
-        return total
-    }
-    function funTotalCantidad() {
-        const finalizado = ordenesArr.value.filter(
-            el => el.estado === 'terminado'
-        )
-        const total = finalizado.reduce((total, orden) => {
-            return (
-                total +
-                orden.pedido.reduce((subtotal, item) => {
-                    return subtotal + item.cantidad
-                }, 0)
-            )
-        }, 0)
+		// analiticas
+		totalBeneficios,
+		totalOrdenes,
+		totalCantidad,
 
-        return total
-    }
-
-    return {
-        ordenesArr,
-        ordenSelected,
-        actionState,
-        errorApi,
-
-        nroPendientes,
-        nroAtendidos,
-        nroTerminados,
-        timeOrden,
-        nroTotalPedientes,
-        puedoBorrar,
-
-        //analiticas
-        totalBeneficios,
-        totalOrdenes,
-        totalCantidad,
-
-        ordenar,
-        borrar,
-        actualizar,
-        pagarOrden,
-        checkOrdenUpdate,
-        listOrdenes,
-        manageOrden,
-        selectOrden,
-        selectOrdenToCheck,
-        selectOrdenToPay,
-        loadDataToPrint,
-        printPage,
-    }
+		ordenar,
+		borrar,
+		actualizar,
+		pagarOrden,
+		checkOrdenUpdate,
+		listOrdenes,
+		manageOrden,
+		selectOrden,
+		loadDataToPrint,
+		printPage,
+		cleanForm,
+	}
 }

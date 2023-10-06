@@ -1,5 +1,5 @@
 <template>
-    <div></div>
+	<div></div>
 </template>
 
 <script setup>
@@ -10,5 +10,3 @@ const route = useRoute()
 const { oauthLogin } = useAuth()
 oauthLogin(route.query.token)
 </script>
-
-<style lang="scss" scoped></style>

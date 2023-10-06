@@ -1,373 +1,200 @@
 <template>
-    <!-- Elegir tipo de Cliente -->
-    <div
-        class="modal fade"
-        id="createPosOrden"
-        tabindex="-1"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        role="dialog"
-        aria-labelledby="createSucursalLabel"
-        aria-hidden="true"
-    >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center mb-2">
-                    <h2 class="modal-title fw-bold mb-4" id="exampleModalLabel">
-                        Tipo Cliente
-                    </h2>
-                    <div
-                        id="buttonsChooseClient"
-                        class="row d-flex flex-column px-4 g-2"
-                    >
-                        <button
-                            class="btn-cotenido-modal btn-modal-primary fw-bold"
-                            data-bs-target="#createPosOrdenHuesped"
-                            data-bs-toggle="modal"
-                        >
-                            Huesped
-                        </button>
-                        <button
-                            class="btn-cotenido-modal btn-modal-primary fw-bold"
-                            data-bs-target="#createPosOrdenExterno"
-                            data-bs-toggle="modal"
-                        >
-                            Externo
-                        </button>
-                    </div>
-                </div>
-                <div class="modal-footer p-0">
-                    <button
-                        type="button"
-                        class="btn-modal btn-modal-block btn-modal-secondary col fw-bold"
-                        data-bs-dismiss="modal"
-                    >
-                        Cerrar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Datos de Husped -->
-    <div
-        class="modal fade"
-        id="createPosOrdenHuesped"
-        tabindex="-1"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        role="dialog"
-        aria-labelledby="createSucursalLabel"
-        aria-hidden="true"
-    >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <h2 class="modal-title fw-bold mb-4" id="exampleModalLabel">
-                        Huesped
-                    </h2>
-                    <div
-                        id="formHuespedData"
-                        class="row d-flex flex-column px-4 g-2"
-                    >
-                        <div class="form-floating">
-                            <input
-                                v-model="carritoOrden.cliente.name"
-                                type="text"
-                                class="form-control"
-                                id="floatingNombreHuesped"
-                            />
-                            <label for="floatingNombreHuesped"
-                                >Nombre de huesped</label
-                            >
-                        </div>
-                        <div class="form-floating">
-                            <input
-                                v-model="carritoOrden.cliente.nota"
-                                type="number"
-                                class="form-control"
-                                id="floatingHabitacionHuesped"
-                            />
-                            <label for="floatingHabitacionHuesped"
-                                >Habitación</label
-                            >
-                        </div>
-                        <div class="form-floating">
-                            <input
-                                v-model="carritoOrden.mesa"
-                                type="number"
-                                class="form-control"
-                                id="floatingMesaCliente"
-                            />
-                            <label for="floatingMesaCliente">Mesa</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer p-0">
-                    <button
-                        type="button"
-                        class="btn-modal btn-modal-left btn-modal-secondary col fw-bold"
-                        data-bs-dismiss="modal"
-                    >
-                        Cerrar
-                    </button>
-                    <button
-                        type="button"
-                        class="btn-modal btn-modal-right btn-modal-primary col fw-bold"
-                        data-bs-target="#createPosOrdenEnd"
-                        data-bs-toggle="modal"
-                    >
-                        Continuar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Datos de Externo -->
-    <div
-        class="modal fade"
-        id="createPosOrdenExterno"
-        tabindex="-1"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        role="dialog"
-        aria-labelledby="createSucursalLabel"
-        aria-hidden="true"
-    >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <h2 class="modal-title fw-bold mb-4" id="exampleModalLabel">
-                        Cliente
-                    </h2>
-                    <div
-                        id="formHuespedData"
-                        class="row d-flex flex-column px-4 g-2"
-                    >
-                        <div class="form-floating">
-                            <input
-                                v-model="carritoOrden.cliente.name"
-                                type="text"
-                                class="form-control"
-                                id="floatingNombreHuesped"
-                            />
-                            <label for="floatingNombreHuesped"
-                                >Nombre de cliente</label
-                            >
-                        </div>
-                        <div class="form-floating">
-                            <input
-                                v-model="carritoOrden.mesa"
-                                type="number"
-                                class="form-control"
-                                id="floatingMesaCliente"
-                            />
-                            <label for="floatingMesaCliente">Mesa</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer p-0">
-                    <button
-                        type="button"
-                        class="btn-modal btn-modal-left btn-modal-secondary col fw-bold"
-                        data-bs-dismiss="modal"
-                    >
-                        Cerrar
-                    </button>
-                    <button
-                        type="button"
-                        class="btn-modal btn-modal-right btn-modal-primary col fw-bold"
-                        data-bs-target="#createPosOrdenEnd"
-                        data-bs-toggle="modal"
-                    >
-                        Continuar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Realizar orden / Imprimir nota -->
-    <div
-        class="modal fade"
-        id="createPosOrdenEnd"
-        tabindex="-1"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        role="dialog"
-        aria-labelledby="createSucursalLabel"
-        aria-hidden="true"
-    >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center" id="ordenDataToPrint">
-                    <h2 class="modal-title fw-bold mb-4" id="exampleModalLabel">
-                        Orden
-                    </h2>
-                    <div
-                        id="ordenDataClient"
-                        class="row d-flex flex-column px-4 g-3"
-                    >
-                        <div class="text-start d-flex flex-column fst-italic">
-                            <div class="mb-3">
-                                <div
-                                    class="fs-5"
-                                    v-if="carritoOrden.cliente.name"
-                                >
-                                    <span>Cliente: </span>
-                                    <span class="fw-bold">{{
-                                        carritoOrden.cliente.name
-                                    }}</span>
-                                </div>
-                                <div class="fs-5">
-                                    <span>Mesa: </span>
-                                    <span class="fw-bold">{{
-                                        carritoOrden.mesa
-                                    }}</span>
-                                </div>
-                                <div v-if="carritoOrden.cliente.nota">
-                                    <span>Habitación: </span>
-                                    <span class="fw-bold">
-                                        {{ carritoOrden.cliente.nota }}
-                                    </span>
-                                </div>
-                            </div>
-                            <div id="ordenDataPedidosItems">
-                                <template v-for="item in carritoOrden.pedido">
-                                    <div
-                                        class="d-flex"
-                                        v-if="item.pendiente !== 0"
-                                    >
-                                        <span class="me-3">{{
-                                            item.pendiente
-                                        }}</span>
-                                        <span>{{ item.name }}</span>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer p-0">
-                    <button
-                        type="button"
-                        class="btn-modal btn-modal-left btn-modal-secondary col fw-bold"
-                        data-bs-dismiss="modal"
-                    >
-                        Cerrar
-                    </button>
-                    <button
-                        type="button"
-                        class="btn-modal btn-modal-right btn-modal-primary col fw-bold"
-                        data-bs-target="#createPosOrdenMessage"
-                        data-bs-toggle="modal"
-                        @click="imprimir"
-                    >
-                        <span v-if="carritoOrden.estado">Actualizar orden</span>
-                        <span v-else>Realizar orden</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Message Create Orden -->
-    <div
-        class="modal fade"
-        id="createPosOrdenMessage"
-        tabindex="-1"
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        role="dialog"
-        aria-labelledby="modalTitleId"
-        aria-hidden="true"
-    >
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <h2 class="modal-title fw-bold mb-4" id="modalTitleId">
-                        Orden
-                    </h2>
-                    <p v-if="errorApi.show" class="fs-6 fw-bold text-danger">
-                        {{ errorApi.message }}
-                    </p>
-
-                    <p
-                        v-else-if="actionState"
-                        class="fs-4 fw-bold text-success"
-                    >
-                        <span
-                            class="spinner-border spinner-border-md"
-                            role="status"
-                            aria-hidden="true"
-                        ></span
-                        ><br />
-                        Generando Orden...
-                    </p>
-                    <p v-else class="fs-4 fw-bold text-success">
-                        Se realizo la orden ¡Correctamente!
-                    </p>
-                </div>
-                <div class="modal-footer p-0">
-                    <button
-                        v-if="errorApi.show"
-                        type="button"
-                        class="btn-modal btn-modal-block btn-modal-danger col fw-bold"
-                        data-bs-target="#createPosOrden"
-                        data-bs-toggle="modal"
-                    >
-                        Regresar
-                    </button>
-                    <button
-                        v-else-if="actionState"
-                        type="button"
-                        class="btn-modal btn-modal-block btn-modal-disabled col disabled"
-                        data-bs-dismiss="modal"
-                    >
-                        Cerrar
-                    </button>
-                    <button
-                        v-else
-                        type="button"
-                        class="btn-modal btn-modal-block btn-modal-secondary col fw-bold"
-                        data-bs-dismiss="modal"
-                    >
-                        Cerrar
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+	<!-- Elegir tipo de Cliente -->
+	<ModalBase id-modal="createPosOrden" titulo="Datos orden">
+		<template #default>
+			<!-- Botones tipo -->
+			<div class="radio-buttons user-select-none">
+				<label class="radio-button">
+					<input
+						type="radio"
+						v-model="carritoOrden.tipo"
+						value="huesped"
+						id="huespedCheck"
+					/>
+					<span class="button-label fw-bold">Huesped</span>
+				</label>
+				<label class="radio-button">
+					<input
+						type="radio"
+						v-model="carritoOrden.tipo"
+						value="externo"
+						id="externoCheck"
+					/>
+					<span class="button-label fw-bold">Externo</span>
+				</label>
+			</div>
+			<!-- Formulario -->
+			<div id="formHuespedData" class="row d-flex g-2">
+				<div class="form-floating">
+					<input
+						v-model="carritoOrden.cliente.name"
+						type="text"
+						class="form-control"
+						id="floatingNombreHuesped"
+					/>
+					<label for="floatingNombreHuesped">Nombre de huesped</label>
+				</div>
+				<div class="form-floating col-6">
+					<input
+						v-model="carritoOrden.cliente.nota"
+						type="text"
+						class="form-control"
+						id="floatingHabitacionHuesped"
+						:disabled="carritoOrden.tipo !== 'huesped'"
+					/>
+					<label for="floatingHabitacionHuesped">Habitación</label>
+				</div>
+				<div class="form-floating col-6">
+					<input
+						type="button"
+						v-model="carritoOrden.mesa"
+						class="form-control bg-white text-start fw-bold"
+						id="floatingMesaHuesped"
+						@click="showMesas = !showMesas"
+					/>
+					<label for="floatingMesaHuesped">Mesa</label>
+				</div>
+				<!-- Show mesas disponibles -->
+				<div
+					class="row mt-3 gap-1 d-flex justify-content-center"
+					v-if="showMesas"
+				>
+					<button
+						v-for="(mesa, index) in userSucursal.mesas"
+						:class="[
+							compararMesa(index + 1)
+								? 'bg-danger-subtle border-danger-subtle'
+								: 'bg-light-subtle border-light-subtle',
+						]"
+						class="col-1 rounded border border-3"
+						style="width: 50px; height: 50px"
+						:disabled="compararMesa(index + 1)"
+						@click="
+							;(carritoOrden.mesa = `${index + 1}`), (showMesas = !showMesas)
+						"
+					>
+						<span class="fw-bold fs-5">{{ index + 1 }}</span>
+					</button>
+				</div>
+			</div>
+		</template>
+		<template #footer>
+			<template v-if="!carritoOrden.mesa">
+				<BtnFull />
+			</template>
+			<template v-else>
+				<BtnBack />
+				<BtnNext target="printOrden" />
+			</template>
+		</template>
+	</ModalBase>
+	<!-- Realizar orden / Imprimir nota -->
+	<ModalBase id-modal="printOrden" titulo="Orden">
+		<div class="text-start">
+			<div v-if="carritoOrden.cliente.name">
+				<span>Cliente: </span>
+				<span class="fw-bold">{{ carritoOrden.cliente.name }}</span>
+			</div>
+			<div>
+				<span>Mesa: </span>
+				<span class="fw-bold">{{ carritoOrden.mesa }}</span>
+			</div>
+			<div v-if="carritoOrden.cliente.nota">
+				<span>Habitación: </span>
+				<span>
+					{{ carritoOrden.cliente.nota }}
+				</span>
+			</div>
+		</div>
+		<div class="mt-3" id="ordenDataPedidosItems">
+			<template v-for="item in carritoOrden.pedido">
+				<div class="d-flex" v-if="item.pendiente !== 0">
+					<span class="me-3">{{ item.pendiente }}</span>
+					<span>{{ item.name }}</span>
+				</div>
+			</template>
+		</div>
+		<template #footer>
+			<BtnBack />
+			<BtnNext name="Ordenar" @action-next="imprimir" target="msgCarrito" />
+		</template>
+	</ModalBase>
+	<ModalAlert :action="actionState" :error-api="errorApi" id-modal="msgCarrito">
+		<BtnFull
+			:action="actionState"
+			:show="errorApi?.show"
+			target="createPosOrden"
+			@close="$router.push('/ordenes')"
+		/>
+	</ModalAlert>
 </template>
 
 <script setup>
-import { useCarrito } from '../../composables/useCarrito'
-import { useOrdenes } from '../../composables/useOrdenes'
-const { carritoOrden } = useCarrito()
-const { ordenar, actualizar, actionState, errorApi } = useOrdenes()
+import { useCarrito } from '@/composables/useCarrito'
+import { useOrdenes } from '@/composables/useOrdenes'
+import { computed, ref } from 'vue'
+import ModalBase from '../ModalBase.vue'
+import BtnBack from '../buttons/BtnBack.vue'
+import BtnNext from '../buttons/BtnNext.vue'
+import BtnFull from '../buttons/BtnFull.vue'
+import { useAuth } from '@/composables/useAuth'
+import ModalAlert from '../ModalAlert.vue'
+const { carritoOrden, limpiar } = useCarrito()
+const { ordenar, actualizar, actionState, errorApi, ordenesArr } = useOrdenes()
+const { userSucursal } = useAuth()
 
 const imprimir = () => {
-    if (!carritoOrden.value.estado) ordenar()
-    if (carritoOrden.value.estado) actualizar()
+	if (!carritoOrden.value.estado) ordenar()
+	if (carritoOrden.value.estado) actualizar()
 }
+
+const showMesas = ref(false)
+const compararMesa = computed(() => (mesa) => {
+	const mesas = [
+		...new Set(
+			ordenesArr.value
+				.filter((orden) => orden.estado !== 'terminado')
+				.map((orden) => orden.mesa)
+		),
+	]
+	const exist = mesas.includes(mesa.toString())
+	return exist
+})
 </script>
 
 <style scoped>
-.btn-cotenido-modal {
-    padding: 1rem;
-    font-size: 1rem;
-    border: 0;
-    user-select: none;
-    border-radius: 0.375rem;
+.radio-buttons {
+	display: flex;
+	margin-bottom: 1rem;
+	gap: 0.1rem;
 }
-.btn-modal {
-    margin: 0;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-top: 0;
-    border-bottom: 0;
-    border-right: 0;
-    user-select: none;
+
+.radio-button {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.radio-button input[type='radio'] {
+	position: absolute;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.radio-button .button-label {
+	padding: 10px 20px;
+	color: #0d6efd;
+	background-color: #cfe2ff;
+	transition: background-color 0.3s;
+	display: block;
+}
+.button-label:hover {
+	background-color: #0d6efd; /* Cambia el fondo cuando está seleccionado */
+	color: #fff;
+}
+
+.radio-button input[type='radio']:checked + .button-label {
+	background-color: #0d6efd; /* Cambia el fondo cuando está seleccionado */
+	color: #fff; /* Cambia el color del texto cuando está seleccionado */
 }
 </style>

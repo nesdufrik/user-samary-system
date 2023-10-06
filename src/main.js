@@ -14,7 +14,7 @@ import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
 import 'material-icons/iconfont/round.css'
 
 pinia.use(({ store }) => {
-    store.router = markRaw(router)
+	store.router = markRaw(router)
 })
 
 const app = createApp(App)

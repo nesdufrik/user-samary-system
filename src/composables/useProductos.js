@@ -3,43 +3,46 @@ import { getCategorias, getProductos } from '../helpers/helpProductos'
 import { useProductosStore } from '../stores/productosStore'
 
 export const useProductos = () => {
-    const productosStore = useProductosStore()
+	const productosStore = useProductosStore()
 
-    const {
-        categoriasArr,
-        productosArr,
-        actionState,
-        etiquetasArr,
-        productosFiltered,
-    } = storeToRefs(productosStore)
+	const {
+		categoriasArr,
+		productosArr,
+		actionState,
+		etiquetasArr,
+		productosFiltered,
+		query,
+	} = storeToRefs(productosStore)
 
-    const loadPOS = async () => {
-        if (
-            productosArr.value.length === 0 ||
-            categoriasArr.value.length === 0
-        ) {
-            productosStore.loadCategorias(await getCategorias())
-            productosStore.loadProductos(await getProductos())
-            return
-        }
-    }
+	const loadPOS = async () => {
+		if (productosArr.value.length === 0 || categoriasArr.value.length === 0) {
+			productosStore.loadCategorias(await getCategorias())
+			productosStore.loadProductos(await getProductos())
+		}
+	}
 
-    const filtrar = filtro => {
-        productosStore.filterProductos(filtro)
-    }
+	const filtrar = (filtro) => {
+		productosStore.filterProductos(filtro)
+	}
 
-    return {
-        //! propiedades
-        categoriasArr,
-        productosArr,
-        productosFiltered,
-        actionState,
+	const buscar = (query) => {
+		productosStore.foundedProductos(query)
+	}
 
-        //! computadas
-        etiquetasArr,
+	return {
+		//! propiedades
+		categoriasArr,
+		productosArr,
+		productosFiltered,
+		actionState,
+		query,
 
-        //! metodos
-        loadPOS,
-        filtrar,
-    }
+		//! computadas
+		etiquetasArr,
+
+		//! metodos
+		loadPOS,
+		filtrar,
+		buscar,
+	}
 }
